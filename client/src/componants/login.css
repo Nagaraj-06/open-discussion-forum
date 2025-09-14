@@ -1,0 +1,149 @@
+.login-layout{
+    width:100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-body{
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.login-body .bit-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-body .bit-logo img{
+    height: 120px;
+    width: 120px;
+}
+
+.greet-head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.greet-head img{
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.login-body h2{
+    /* margin-bottom: 1rem; */
+    font-weight: bold;
+    font-size: 2rem;
+    color: #00357d;
+    font-family: "Poppins";
+    align-items: center;
+}
+
+.login-body .greet-text{
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #337ab7;
+    font-family: "Poppins";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-group input{
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  outline: none;
+}
+
+.login-form-group .google-sign-in{
+    display: flex;
+    gap: 20px;
+    background-color: rgb(248, 250, 252);
+    width: 100%;
+    justify-content: center;
+    border: 1px solid rgb(238, 242, 246);
+    padding: 0.5rem;
+    align-items: center;
+    margin-top: 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    
+}
+
+.login-form-group .google-sign-in:hover{
+    background-color: rgb(244, 244, 244);
+}
+
+.login-form-group .google-sign-in h3{
+    font-weight: 400;
+    font-family: "Roboto";
+    font-size: 1rem;
+}
+
+.submit-btn-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-group .submit-btn {
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    margin-top: 1.5rem;;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Poppins";
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media screen and (max-width:510px) {
+    .login-body{
+        max-width: 400px;
+    }
+
+    .login-body h2{
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .login-body .greet-text{
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .login-form-group input{
+        margin-bottom: 0.5rem;
+    }
+
+    .login-form-group .google-sign-in,.login-form-group .submit-btn{
+        margin-top: 1rem;
+    }
+}
+
+@media screen and (max-width:410px) {
+    .login-body{
+        max-width: 350px;
+    }
+}

@@ -1,0 +1,298 @@
+/* second largest page */
+
+.secbody{
+  /* background-color: rgb(179, 179, 179); */
+  margin: 45px;
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  color: #00357d;
+}
+
+/* /* .secquesh1{
+  display: flex;
+  justify-content: sp; 
+} */
+
+.secquesh1 h1{
+  text-decoration: underline;
+  font-family: "Poppins";
+  margin-bottom: 10px;
+}
+
+.secquesh1 .ques-icon{
+  margin-left: 5px;
+  height: 24px;
+  width: 24px;
+}
+
+.sech1{
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.sech1 .seciconh1 h1{
+    font-size: 22px;
+}
+
+.ques-account{
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ques-account-img{
+  display: flex;
+  align-items: center;
+}
+
+.ques-account .ques-account-name p a{
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  color: #00357d;
+}
+
+.ques-account .ques-account-name :hover{
+  color: rgb(239, 67, 63);
+}
+
+.ques-account .ques-account-img img{
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* .sech1 .quesicon{
+} */
+
+.secpara{
+  font-size: 15px;
+  margin:8px 0 15px;
+}
+
+.secpara p{
+  font-family: 'Jost';
+  font-size: 18px;
+  max-width: 800px;
+}
+
+.secimg {
+  
+}
+
+.secimg img{
+  height: 300px;
+  width: 300px;
+  margin-bottom: 8px;
+  border: 1px solid rgb(233, 232, 232);
+}
+
+.actions{
+  width: 100%;
+  /* background-color: rgb(138, 199, 199); */
+  display: flex;
+  /* padding-left: 200px; */
+  align-items: center;
+  gap: 5px;
+}
+
+.likes{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap:3px;
+}
+
+.likes button{
+  background-color: #ffffff;
+  border: none;
+  /* height: 100%; */
+  width:30px;  
+}
+
+.likeicon{
+  /* background-color: aqua; */
+  color: rgb(179,179,179);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  /* fill: red; */
+  height: 20px;
+  width: 20px;
+}
+
+.bookmark button,.edit button{
+  background-color: #ffffff;
+  border: none;
+  /* height: 100%; */
+  width:30px;  
+}
+
+.bm-icon,.edit-icon{
+  /* background-color: aqua; */
+  color: rgb(179,179,179);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  height: 20px;
+  width: 20px;
+}
+
+.likeicon:hover,.bm-icon:hover,.delete-icon:hover,.edit-icon:hover{
+  color: rgb(239, 67, 63);
+}
+
+.replybutton{
+  margin-left: 5px;
+  width: 100%;
+  /* display: flex; */
+  /* justify-content: flex-end; */
+  
+}
+
+.replybutton button{
+  color:#ffffff;
+  background-color: rgb(239, 67, 63);
+  border: none;
+  cursor: pointer;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-family: "Poppins";
+  font-weight: 600;
+}
+
+.replybutton button:hover{
+  background-color: #192851;
+  transition: 0.3s;
+}
+
+.secreplies{
+  margin-top: 25px;
+  /* background-color: rgb(117, 101, 132); */
+}
+
+.secrepexample{
+  padding:10px 20px;
+  /* margin-bottom: 45px; */
+  /* background-color: rgb(196, 216, 176); */
+}
+
+.secreph1 h1{
+  text-decoration: underline;
+  font-family: "Poppins";
+}
+
+.secreph1 .reply-icon{
+  margin-left: 5px;
+  height: 24px;
+  width: 24px;
+}
+
+.secrephead{
+  /* font-size: 25px; */
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0 0 0;
+}
+
+.secrephead p a{
+  font-family: 'Poppins';
+  font-weight: 600;
+  text-decoration: none;
+  color: #00357d;
+  font-size: 16px;
+}
+
+.secrephead p a:hover{
+  color: rgb(239, 67, 63);
+}
+
+.secrephead img{
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 7px;
+}
+
+.secreppara{
+  font-size: 15px;
+  margin-bottom:15px;
+  margin-left: 50px;
+}
+
+.secreppara p{
+  /* text-indent: 50px; */
+  font-family: 'Jost';
+  font-size:15px;
+  max-width: 1000px;
+  margin-bottom: 8px;
+}
+
+.secrepreply{
+  /* background-color: yellowgreen; */
+  margin-left: 12.5rem;
+}
+
+.secreprephead{
+  margin: 15px 0 0px;
+}
+
+.secreprephead p a{
+  font-family: 'Poppins';
+  font-weight: 600;
+  text-decoration: none;
+  color: #00357d;
+  font-size: 15px;
+}
+
+.secreprephead p a:hover{
+  color: rgb(239, 67, 63);
+}
+
+.secreprephead img{
+  height:35px;
+  width:35px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 7px;
+}
+
+.secrepreppara{
+  text-indent: 50px;
+  font-size: 15px;
+  /* margin: 0px 0; */
+}
+
+.secrepreppara p{
+  text-indent: 50px;
+  font-family: 'Jost';
+  font-size:15px;
+  margin-bottom: 5px;
+}
+
+@media screen and (max-width: 810px){
+  .secbody{
+    margin: 20px;
+  }
+
+  .secrepreply{
+    margin-left: 5rem;
+  }
+
+  .secreplies{
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .secimg img{
+    height: 200px;
+    width: 200px;
+  }
+}

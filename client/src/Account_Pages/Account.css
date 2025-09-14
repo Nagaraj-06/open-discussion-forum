@@ -1,0 +1,188 @@
+.account{
+  display: flex;
+  flex-direction: column;
+}
+
+.name{
+padding-left: 0.5rem;
+width: 100%;
+height: 12.5%;
+border-bottom: 2px solid #cee1ef;
+border-top: 2px solid #cee1ef;
+}
+
+.fundamental{
+  height: 37.5%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.fundamental-details{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 1rem;
+}
+
+.fundamental-details ul{
+  list-style: none;
+}
+
+.fundamental-details ul li{
+  font-family: "Poppins";
+  font-size: 18px;
+  font-weight: 400;
+  padding: 10px;
+  color: #00357d;
+}
+
+.name h1{
+  line-height: 60px;
+  font-family: 'Poppins';
+  font-size: 6vmin;
+  font-weight: 700;
+  color: #00357d;
+}
+
+.profile-details{
+  width: 75%;
+  padding-left: 20px;
+}
+
+.fundamental-img img{
+  padding-left: 0.5rem;
+  height: 150px;
+  width: 150px;
+  margin: 20px 0 ;
+  display: inline-block;
+}
+
+.proflinks{
+  width: 25%;
+  padding-top: 1.25rem;
+}
+
+.proflinks ul{
+  list-style: none;
+}
+
+.proflinks ul .focused-item,.proflinks ul .focused-item:hover{
+  background-color: rgb(238, 238, 238);
+}
+
+
+.proflinks ul li{
+  font-family: "Jost";
+  font-weight: 600;
+  padding: 10px;
+  color: #00357d;
+}
+
+.proflinks ul li:hover{
+  background-color: rgb(250, 250, 250);
+  cursor: pointer;
+}
+
+.account-base{
+  display: flex;
+  flex-direction: row;
+  height: 50%;
+  border-bottom: 2px solid #cee1ef;
+}
+
+.accdetails{
+  height:100%;
+  width:100%;
+  padding:1rem 0px;
+}
+
+.accdetails h1{
+  color: #00357d;
+  font-family: "Jost";
+  line-height: 18px;
+  margin: 20px 0 25px;
+}
+
+.accdetails p{
+  margin: 20px 5px;
+  font-size: 20px;
+  color: #00357d;
+}
+
+
+
+@media screen and (max-width:870px){
+  .account{
+    margin-top: 20px;
+  }
+
+  .fundamental-img img{
+    height: 125px;
+    width: 125px;
+  }
+
+  .fundamental-details ul li{
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  .proflinks{
+    padding-top: 1rem;
+  }
+
+  .accdetails{
+    padding-top: 0.75rem;
+  }
+
+  .accdetails h1{
+    margin: 15px 0 20px;
+    line-height: 15px;
+    font-size: 25px;
+  }
+
+  .accdetails p{
+    margin: 15px 0;
+    font-size: 18px;
+  }
+
+  .proflinks ul li{
+    padding: 7px;
+  }
+}
+
+@media screen and (max-width:770px){
+  .account{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width:540px) {
+  .fundamental-img img{
+    height: 100px;
+    width: 100px;
+  }
+  
+  .accdetails h1{
+    font-size: 20px;
+  }
+
+  .accdetails p{
+    margin: 12px 0;
+    font-size: 16px;
+  }
+
+
+  .fundamental-details{
+    padding-left: 0.5rem;
+  }
+
+  .fundamental-details ul li{
+    font-size: 3vmin;
+    padding: 4px;
+  }
+
+  .proflinks{
+    font-size: 14px;
+  }
+}

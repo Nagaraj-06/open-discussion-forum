@@ -1,0 +1,76 @@
+.delete-icon-button{
+    border: none;
+    background-color: #ffffff;
+    width:30px;  
+}
+
+.delete-icon{
+    color: rgb(179,179,179);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    height: 20px;
+    width: 20px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+ 
+.alert-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+}
+
+ .alert-box button{
+    cursor: pointer;
+    color:#ffffff;
+    background-color: rgb(239, 67, 63);
+    font-family: "Poppins";
+    font-size: 14px;
+    border: none;
+    font-weight: 600;
+    padding: 5px 10px;
+} 
+
+.alert-box-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+}
+
+.alert-box-top{
+    display: flex;
+    justify-content: flex-end;
+}
+  
+.alert-box-close-button{
+    margin: 10px 10px 0 0;
+}
+
+.alert-box-footer{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.alert-box-footer button {
+    width:50px;
+}

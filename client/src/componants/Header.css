@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* .header{
+   padding:  10px 20px; 
+   background-color: #3e5266; 
+   height:500px; 
+   width:100%; 
+} */
+
+
+
+.contentfix{
+  /* max-width: 1200px; */
+  background-color: #3e5266;
+  height: 100px;
+  width: 100%;
+  margin: 0 ;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding-right: 45px;
+  /* position: */
+  /* border: solid black; */
+}
+
+.head{
+  height:70px;
+  width:18rem;
+  margin-left: 30px;
+  background-color: #203549;
+  /* box-sizing: border-box; */
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
+}
+
+.head h2{
+  color: #FFFFFF;
+  font-size: 24px;
+} 
+  
+.navbar{
+    /* width: 50%; */
+    height: 100%;
+    /* background-color: yellowgreen; */
+    font-family: "Poppins";
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+.navbar ul{
+    display: flex;
+    list-style: none;
+    align-content: center;
+  }
+  
+.navbar ul li{
+    list-style: none;
+    display: inline-block;
+    padding: 0 10px 0 10px;
+    /* background-color: azure; */
+  }
+
+.navbar ul li a,.navbar ul li button{
+    display: block;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+.navbar ul .logout-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar ul li button{
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.navbar ul li button .navtext{
+  font-size: 16px;
+  font-family: "Poppins";
+}
+
+.navbar ul li .navicon{
+  display: none;
+}
+
+.navbar ul li a:hover,.navbar ul li button:hover {
+    color: #bfe2fc;
+  }
+  
+.menu{
+    position: absolute;
+    color:#FFFFFF;
+    right: 0.25rem;
+    display: none;
+  }
+
+  .headerbody{
+    background-color: #3e5266;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 25rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 3rem;
+  }
+  
+  .left-content{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .welcomemsg{
+    /* background-color: rgb(209, 222, 170); */
+    font-weight: bolder;
+    font-size: 3rem;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #FFFFFF;
+    padding-bottom: 4rem;
+  }
+  
+  .searchbar{
+    /* padding-left:25px; */
+  }
+  
+  .headcolumn{
+    background-color: #203459;
+    opacity: 90%;
+    box-sizing: border-box;
+    height: 14rem;
+    width: 15rem;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+  }
+  
+  .headcolumn table{
+    padding: 1rem;
+    height: 100%;
+    width: 100%;
+  } 
+
+  .headcolumn th,.headcolumn td{
+    padding: 0.5rem;
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  }
+  
+  .headcolumn td{
+    /* text-align: left; */
+    font-weight: bolder;
+  }
+  
+  /* .active{
+    color: #bfe2fc;
+    } */
+    
+    /* Mobile devices */
+    
+    
+    @media screen and (max-width: 840px){
+      .contentfix{
+        padding-right: 0;
+      }
+
+      .navbar ul li .navicon{
+        display: inline;
+        font-size: 27px;
+        
+      }
+      
+      .navbar ul li .navtext{
+        display: none;
+      }
+    }
+    
+    @media(max-width:500px){
+      /* .menu{
+        display: flex;
+        } */
+        
+      .contentfix{
+        flex-direction: column;
+        align-items: start;
+        padding-right: 0;
+        }
+        
+      .head{
+        margin:0;
+        height: 50%;
+        width: 100%;
+        }
+        
+      .navbar{
+        height: 50%;
+        width: 100%;
+        margin: 0;
+        }
+        
+      .navbar ul{
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        width:100%;
+        }
+
+    }
+  
+    /* Mobile devices */
+    
+    @media screen and (max-width: 810px){
+      
+      .headerbody{
+        padding: 0 1.75rem;
+      }
+      
+      .welcomemsg{
+        font-size: 2.3rem;
+        padding-bottom: 2.5rem;
+      }
+      
+      .headcolumn{
+        height: 12rem;
+        width: 12rem;
+      }
+      
+      .headcolumn table{
+        padding: 0.5rem;
+      }
+      
+      .headcolumn th,.headcolumn td{
+        padding: 0.25rem;
+      }
+    }
+    @media screen and (max-width:640px){
+      .welcomemsg{
+        font-size: 1.8rem;
+        padding-right: 5px;
+      }
+  
+      .headcolumn{
+        height: 10rem;
+        width: 10rem;
+      }
+      
+      .headcolumn table{
+        padding: 0.25rem;
+      }
+      
+      .headcolumn th,.headcolumn td{
+        padding: 0.20rem;
+      }
+    }
