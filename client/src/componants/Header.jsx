@@ -18,23 +18,30 @@ export const FirstHeader = ({
   ...props
 }) => {
   const [users, setUsers] = useState("");
-  // const [username,setUsername]=useState('');
-  // const [email,setEmail]=useState('');
   const [search, setSearch] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [userId, setUserId] = useState();
+
   props?.searchh(search);
   axios.defaults.withCredentials = true;
 
   const navigate = useNavigate();
 
-  let email, username;
+  console.log("hello from first header ");
 
-  const jwt_token = Cookies.get("token");
-  if (jwt_token) {
-    const decode_payload = jwtDecode(jwt_token);
-    email = decode_payload.email;
-    username = decode_payload.username;
-  }
+  useEffect(() => {
+    const jwt_token = Cookies.get("token");
+    if (jwt_token) {
+      const decode_payload = jwtDecode(jwt_token);
+      console.log("email from payload : " + decode_payload.email);
+
+      setEmail(decode_payload.email);
+      setUsername(decode_payload.username);
+    } else {
+      console.log("token not found ");
+    }
+  }, []);
 
   // 🟢 Logout user
   function handleDelete() {
@@ -60,7 +67,11 @@ export const FirstHeader = ({
     if (!email) return;
     api
       .post("/profile_info", { email })
-      .then((res) => setUserId(res.data[0]?.id))
+      .then((res) => {
+        console.log("profile_info :" + res.data[0]);
+
+        setUserId(res.data[0]?.id);
+      })
       .catch((err) => console.log(err));
   }, [email]);
 

@@ -57,7 +57,11 @@ const Home = () => {
   useEffect(() => {
     api
       .get("/usernames")
-      .then((res) => setUsernames(res.data))
+      .then((res) => {
+        console.log(res.data);
+
+        setUsernames(res.data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -66,8 +70,6 @@ const Home = () => {
     api
       .get("/getallposts")
       .then((res) => {
-        console.log(res.data);
-
         setPostsCount(res.data.length);
       })
       .catch((err) => console.log(err));
