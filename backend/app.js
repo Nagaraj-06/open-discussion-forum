@@ -94,7 +94,7 @@ app.get("/failed", (req, res) => {
     }
   });
   res.clearCookie("token");
-  res.redirect(`http://localhost:9000/`);
+  res.redirect(`${process.env.frontend_url}`);
 });
 
 app.get("/verify-user", verifyToken, (req, res) => {
