@@ -99,10 +99,15 @@ router.get(
 
             const token = jwt.sign(
               { username: userName, email: userEmail },
-               process.env.secret_key,
+              process.env.secret_key,
               { expiresIn: "1d" }
             );
-            res.cookie("token", token);
+
+            res.cookie("token", token, {
+              httpOnly: true,
+              secure: true, // true for HTTPS only
+              sameSite: "None", // important for cross-site cookies
+            });
             // res.send(result);
 
             return res.redirect("http://localhost:4000/Home");
