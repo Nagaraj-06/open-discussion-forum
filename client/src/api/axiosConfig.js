@@ -2,7 +2,7 @@ import axios from "axios";
 
 // create instance
 const api = axios.create({
-  baseURL: "http://localhost:2000",
+  baseURL: process.env.REACT_APP_BACKEND_URL,
   withCredentials: true, // allows cookies
 });
 
