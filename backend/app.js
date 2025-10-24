@@ -19,7 +19,7 @@ dotenv.config({
 
 app.use(
   cors({
-    origin: "https://project-gssvubfft-mass-nagarajs-projects.vercel.app",
+    origin: "https://project-f931w2ijo-mass-nagarajs-projects.vercel.app",
     methods: ["POST", "GET"],
     credentials: true,
   })
