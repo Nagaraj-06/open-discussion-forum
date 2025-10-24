@@ -100,7 +100,7 @@ app.get("/failed", (req, res) => {
     }
   });
   res.clearCookie("token");
-  res.redirect(`http://localhost:4000/`);
+  res.redirect(`http://localhost:9000/`);
 });
 
 app.listen(2000, () => {
