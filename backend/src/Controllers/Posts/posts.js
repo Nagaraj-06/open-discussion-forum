@@ -143,9 +143,6 @@ const PostsControllers = {
                 res.json({
                   Status: `${edit_id} th Question Edited successfully `,
                 });
-                console.log(
-                  `${edit_id} th Question Edited successfully in  both questions and reply_details table..`
-                );
               }
             }
           );
@@ -167,7 +164,6 @@ const PostsControllers = {
           console.log(err);
           res.status(500).send(err);
         } else {
-          console.log("Question deleted Success in questions");
         }
       });
 
@@ -187,7 +183,7 @@ const PostsControllers = {
                     console.log(err);
                     res.status(500).send(err);
                   } else {
-                    console.log("Question deleted in view_details");
+                    // console.log("Question deleted in view_details");
                   }
                 }
               );
@@ -212,7 +208,7 @@ const PostsControllers = {
                     console.log(err);
                     res.status(500).send(err);
                   } else {
-                    console.log("Question deleted in reply_details");
+                    // console.log("Question deleted in reply_details");
                   }
                 }
               );
@@ -237,7 +233,7 @@ const PostsControllers = {
                     console.log(err);
                     res.status(500).send(err);
                   } else {
-                    console.log("Question deleted in sub_replies");
+                    // console.log("Question deleted in sub_replies");
                   }
                 }
               );
@@ -259,7 +255,7 @@ const PostsControllers = {
                   console.log(err);
                   res.status(500).send(err);
                 } else {
-                  console.log("Question deleted in likes");
+                  // console.log("Question deleted in likes");
                 }
               }
             );
@@ -283,7 +279,7 @@ const PostsControllers = {
                     console.log(err);
                     res.status(500).send(err);
                   } else {
-                    console.log("Question deleted in reply_likes");
+                    // console.log("Question deleted in reply_likes");
                   }
                 }
               );
@@ -305,7 +301,7 @@ const PostsControllers = {
                   console.log(err);
                   res.status(500).send(err);
                 } else {
-                  console.log("Question deleted in saved");
+                  // console.log("Question deleted in saved");
                 }
               }
             );
@@ -329,7 +325,7 @@ const PostsControllers = {
                     console.log(err);
                     res.status(500).send(err);
                   } else {
-                    console.log("Question deleted in reply_saved");
+                    // console.log("Question deleted in reply_saved");
                   }
                 }
               );

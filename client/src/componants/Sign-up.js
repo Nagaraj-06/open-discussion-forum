@@ -31,9 +31,7 @@ export default function Signup() {
         password: password,
         conformpassword: conformpassword,
       })
-      .then((res) => {
-        console.log(res.data);
-      })
+      .then()
       .catch((error) => {
         console.error("Login failed:", error);
       });

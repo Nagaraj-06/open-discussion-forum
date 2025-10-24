@@ -27,7 +27,6 @@ useEffect(() => {
 function handleDelete() {
   api.get("/logout", { params: { email } })
     .then(res => {
-      console.log(res.data);
       navigate("/");
     })
     .catch(err => console.log(err));

@@ -70,7 +70,7 @@ const Subreplies = ({
   function deltReply(subId) {
     api
       .post("/deltReply", { SubReplyId: subId })
-      .then((res) => console.log(res.data))
+      .then()
       .catch((err) => console.log(err));
   }
 
@@ -80,7 +80,6 @@ const Subreplies = ({
     api
       .post("/EditSubReply", { id })
       .then((res) => {
-        console.log("Editing sub reply data..", res.data);
         setEditReplyId(res.data[0].id);
         setReply(res.data[0].body);
         if (res.data[0].image) {
@@ -106,12 +105,9 @@ const Subreplies = ({
     formData1.append("body", reply);
     formData1.append("image", file || "");
 
-    console.log("post_id:", post_id, "editReplyId:", editReplyId, reply, file);
-
     api
       .post("/Editsubreplies", formData1)
       .then((res) => {
-        console.log(res.data);
         setReply("");
         setFile("");
       })

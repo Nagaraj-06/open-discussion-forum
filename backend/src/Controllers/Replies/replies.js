@@ -90,7 +90,6 @@ const ReplyController = {
         }
       });
     } catch (error) {
-      // console.log("Error Occurs...");
       res.status(500).send({
         message: "Error occurs while fetch language datas..",
         error: error.message,
@@ -187,7 +186,6 @@ const ReplyController = {
       const id = req.body.id;
       const MainReplyId = req.body.MainReplyId;
       const SubReplyId = req.body.SubReplyId;
-      // console.log("SubReply and Main checking ",SubReplyId==null,MainReplyId==null)
 
       let = sqlquery = "";
       let = queryParams = [];
@@ -202,7 +200,6 @@ const ReplyController = {
         queryParams = [id, email, SubReplyId];
       }
 
-      // console.log("  ",email,id)
       db.query(sqlquery, queryParams, (err, result) => {
         if (err) {
           console.log(err);
@@ -210,7 +207,6 @@ const ReplyController = {
           if (result.length == 0) {
             return res.json({ status: "yes" });
           } else {
-            // console.log("like data found..!")
             res.json({ status: "no" });
           }
         }
@@ -251,7 +247,6 @@ const ReplyController = {
             return res.json({ status: "yes" });
           } else {
             res.json({ status: "no" });
-            // console.log("save2 data found..!")
           }
         }
       });
@@ -282,8 +277,6 @@ const ReplyController = {
           "insert into reply_likes(email,post_id,SubReplyId) values (?,?,?)";
         queryParams = [email, id, SubReplyId];
       }
-
-      console.log(queryParams);
 
       db.query(sqlquery, queryParams, (err, result) => {
         if (err) {
@@ -346,7 +339,6 @@ const ReplyController = {
               }
             });
           } else {
-            console.log(result[0].status);
             if (result[0].status == 0) {
               status = "1";
             } else {
@@ -471,7 +463,6 @@ const ReplyController = {
           console.log(err);
           res.status(500).send(err);
         } else {
-          console.log("Reply deleted Success in Repl_details");
         }
       });
       db.query(
@@ -490,7 +481,7 @@ const ReplyController = {
                     console.log(err);
                     res.status(500).send(err);
                   } else {
-                    console.log("Reply deleted in reply_likes");
+                    // console.log("Reply deleted in reply_likes");
                   }
                 }
               );
@@ -514,7 +505,7 @@ const ReplyController = {
                     console.log(err);
                     res.status(500).send(err);
                   } else {
-                    console.log("Reply deleted in reply_saved");
+                    // console.log("Reply deleted in reply_saved");
                   }
                 }
               );
@@ -625,7 +616,6 @@ const ReplyController = {
           if (err) {
             console.log(err);
           } else {
-            // console.log(result)
             res.send(result);
           }
         }

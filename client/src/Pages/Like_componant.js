@@ -40,7 +40,6 @@ const Likes = ({ email, post_id, MainReplyId, SubReplyId }) => {
     api
       .post("/check_saveExist2", ReplyType)
       .then((res) => {
-        console.log("checking save Exist2", post_id, res.data.status);
         if (res.data.status === "no") {
           setMarked(!marked);
           setYes_no2("no");
@@ -57,8 +56,6 @@ const Likes = ({ email, post_id, MainReplyId, SubReplyId }) => {
     api
       .post("/replyLikes", ReplyType)
       .then((res) => {
-        console.log("replyType", ReplyType);
-        console.log("likes length", res.data.length);
         setLikes(res.data.length);
       })
       .catch((err) => console.log(err));
@@ -78,7 +75,7 @@ const Likes = ({ email, post_id, MainReplyId, SubReplyId }) => {
 
     api
       .post("/addlike2", ReplyType)
-      .then((res) => console.log(res.data))
+      .then()
       .catch((err) => console.log(err));
   };
 
@@ -88,7 +85,7 @@ const Likes = ({ email, post_id, MainReplyId, SubReplyId }) => {
 
     api
       .post("/saved2", ReplyType)
-      .then((res) => console.log(res.data))
+      .then()
       .catch((err) => console.log(err));
   };
 

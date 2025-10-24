@@ -44,12 +44,6 @@ const ReplyFrom = ({
     showdate.getSeconds();
   const [currentDate, currentMonth, currentYear] = displayTodaysDate.split("/");
   const [currentHours, currentMinutes, currentsec] = displayTime.split(":");
-  let [viewDate, viewMonth, viewYear] = ["", "", ""];
-
-  let arr1 = [Number(currentDate), Number(currentMonth), Number(currentYear)];
-  let arr2 = [];
-
-  // console.log("subreplies in ReplyForm :",subrepliess);
 
   const fileInputRef = useRef(null);
 
@@ -78,7 +72,6 @@ const ReplyFrom = ({
     var minutes = today.getMinutes();
     var seconds = today.getSeconds();
     var fecha1 = hour + ":" + minutes + ":" + seconds;
-    console.log(fecha1);
 
     if (sub_id == null) {
       formData1.append("to_main_replyid", main_id);
@@ -93,20 +86,15 @@ const ReplyFrom = ({
     formData1.append("date", fecha);
     formData1.append("time", fecha1);
 
-    // console.log(formData1)
-
     if (file2) {
       formData1.append("image", file2);
     } else {
       formData1.append("image", "");
     }
 
-    // console.log("form ",formData1)
-
     api
       .post("/subreplies", formData1)
       .then((res) => {
-        console.log("sub Reply added SuccessFully...!");
         setReply("");
         setFile2("");
       })

@@ -74,7 +74,7 @@ const Discussionform = () => {
     api
       .post("/QuestionId", { id: EditPostId })
       .then((res) => {
-        console.log("Editing Datas :", res.data);
+        // console.log("Editing Datas :", res.data);
         setEditingDatas(res.data);
         setEditor(res.data[0]?.email);
         setLanguageID(Number(res.data[0]?.language_id));
@@ -127,7 +127,7 @@ const Discussionform = () => {
   var seconds = today.getSeconds();
   var fecha1 = hour + ":" + minutes + ":" + seconds;
 
-  console.log("Before :", language_id, level_id);
+  // console.log("Before :", language_id, level_id);
 
   formData.append("email", email);
   // These are edit from already added Post (language_id,level_id)
@@ -146,24 +146,12 @@ const Discussionform = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Form submitted:", {
-      email,
-      language_id,
-      level_id,
-      title,
-      body,
-      fecha,
-      fecha1,
-      file,
-    });
-    console.log("Form data File : ", file?.name);
-
     if (EditPostId == null) {
       // 🟢 Add new discussion
       api
         .post("/Discussion", formData)
         .then((res) => {
-          console.log("Question added Successfully!");
+          // console.log("Question added Successfully!");
         })
         .catch((err) => console.log(err));
     } else {
@@ -176,7 +164,6 @@ const Discussionform = () => {
       api
         .post("/EditDiscussion", formData)
         .then((res) => {
-          console.log("Question Edited Successfully!");
           navigate(
             `/${language_id}/${level_id}/discussion?discussionId=${EditPostId}`
           );
@@ -272,7 +259,6 @@ const Discussionform = () => {
                 (subject) => subject.label == selectedValue
               );
               if (selectedSubject) {
-                console.log(selectedSubject.id);
                 setSelectId(selectedSubject.id);
                 setLanguageID(selectedSubject.id);
                 setSelectedLanguage(selectedValue);
@@ -301,7 +287,6 @@ const Discussionform = () => {
                 (subject) => subject.label == selectedValue
               );
               if (selectedSubject) {
-                console.log(selectedSubject.id);
                 setSelectLevelId(selectedSubject.id);
                 setLevelID(selectedSubject.id);
               }

@@ -16,7 +16,6 @@ const languageController = {
             )
         }
         catch(error) {
-            console.log("Error Occurs...");
             res.status(500).send({
                     error   : error.message
                 })
@@ -41,7 +40,6 @@ const languageController = {
             );
         } 
         catch(error) {
-            console.log("Error Occurs...");
             res.status(500).send({
                     error   : error.message
                 })

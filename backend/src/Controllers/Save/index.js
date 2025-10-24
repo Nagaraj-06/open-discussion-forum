@@ -23,7 +23,6 @@ const SavedController = {
                         console.log(err);
                         reject(err);
                       } else {
-                        // console.log(resultt);
                         list.push(...resultt);
                         resolve(resultt);
                         // res.send(resultt);
@@ -60,8 +59,6 @@ const SavedController = {
           if (err) {
             console.log(err);
           } else {
-            // res.send(result);
-            // console.log(result)
             Promise.all(
               result.map((item, i) => {
                 return new Promise((resolve, reject) => {
@@ -118,7 +115,6 @@ const SavedController = {
     try {
       const id = req.body.id;
       const email = req.body.email;
-      console.log(id, email);
       db.query(
         "SELECT email,status FROM saved WHERE post_id = ? AND email = ?",
         [id, email],

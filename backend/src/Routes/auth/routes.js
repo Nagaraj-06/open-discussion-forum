@@ -26,16 +26,13 @@ const VerifyUser = (req, res, next) => {
   } else {
     const user = jwt.verify(token, process.env.secret_key, (err, decoded) => {
       if (err) {
-        // console.log({Error:"Secret Key is Not Okay..!"});
         return "token expired";
       } else {
-        console.log("Result :", decoded);
         req.username = decoded.username;
         req.email = decoded.email;
         next();
       }
     });
-    console.log(user);
     if (user == "token expired") {
       db.query(
         "update users set date=?,time=? where email=?",
@@ -45,7 +42,7 @@ const VerifyUser = (req, res, next) => {
             console.log(err);
             return res.status(500).send("Server error");
           } else {
-            console.log("Date and time Updated after token Expired !");
+            // console.log("Date and time Updated after token Expired !");
           }
         }
       );
@@ -92,7 +89,7 @@ router.get(
                   console.log(err);
                   return res.status(500).send("Server error");
                 } else {
-                  console.log("Date and time Updated ");
+                  // console.log("Date and time Updated ");
                 }
               }
             );
@@ -131,7 +128,7 @@ router.get("/logout", (req, res) => {
         console.log(err);
         return res.status(500).send("Server error");
       } else {
-        console.log(`Date and time Updated after logout for email =${email}!`);
+        // console.log(`Date and time Updated after logout for email =${email}!`);
       }
     }
   );

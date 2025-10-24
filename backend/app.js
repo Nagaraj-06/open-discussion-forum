@@ -19,7 +19,7 @@ dotenv.config({
 
 app.use(
   cors({
-    origin: "http://localhost:4000",
+    origin: "https://project-gssvubfft-mass-nagarajs-projects.vercel.app",
     methods: ["POST", "GET"],
     credentials: true,
   })

@@ -10,7 +10,6 @@ const userController = {
         }
       });
     } catch (error) {
-      console.log("Error Occurs...");
       res.status(500).send({
         message: "Error occurs while fetch language datas..",
         error: error.message,
@@ -34,7 +33,6 @@ const userController = {
         }
       );
     } catch (error) {
-      console.log("Error Occurs...");
       res.status(500).send({
         error: error.message,
       });
@@ -50,7 +48,6 @@ const userController = {
         }
       });
     } catch (error) {
-      console.log("Error Occurs...");
       res.status(500).send({
         message: "Error occurs while fetch language datas..",
         error: error.message,

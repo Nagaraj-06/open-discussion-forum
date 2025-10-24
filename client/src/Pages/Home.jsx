@@ -39,12 +39,10 @@ const Home = () => {
     api
       .get("/protected")
       .then((res) => {
-        console.log(res.data);
         if (res.data.status === "success") {
           setAuth(true);
           setUsername(res.data.name);
           setEmail(res.data.email);
-          console.log("Retrieved token data:", res.data);
         } else {
           setAuth(false);
           navigate("/");
@@ -58,8 +56,6 @@ const Home = () => {
     api
       .get("/usernames")
       .then((res) => {
-        console.log(res.data);
-
         setUsernames(res.data);
       })
       .catch((err) => console.log(err));

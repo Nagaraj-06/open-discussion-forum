@@ -28,18 +28,16 @@ export const FirstHeader = ({
 
   const navigate = useNavigate();
 
-  console.log("hello from first header ");
-
   useEffect(() => {
     const jwt_token = Cookies.get("token");
     if (jwt_token) {
       const decode_payload = jwtDecode(jwt_token);
-      console.log("email from payload : " + decode_payload.email);
+      // console.log("email from payload : " + decode_payload.email);
 
       setEmail(decode_payload.email);
       setUsername(decode_payload.username);
     } else {
-      console.log("token not found ");
+      // console.log("token not found ");
     }
   }, []);
 
@@ -68,8 +66,6 @@ export const FirstHeader = ({
     api
       .post("/profile_info", { email })
       .then((res) => {
-        console.log("profile_info :" + res.data[0]);
-
         setUserId(res.data[0]?.id);
       })
       .catch((err) => console.log(err));

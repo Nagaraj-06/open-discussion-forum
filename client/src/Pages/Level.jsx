@@ -43,7 +43,6 @@ const Level = () => {
   }
 
   Cookies.remove("Ac_select");
-  // console.log("puss..",email,username)
 
   let path = window.location.pathname;
   const language_id = path?.split("/")[1];
@@ -64,7 +63,6 @@ const Level = () => {
     api
       .get("/getLanguage", { params: { language_id } })
       .then((res) => {
-        console.log("Language:", res.data);
         setLanguage(res.data[0]?.label);
         setLanguage_name(res.data[0]?.name);
       })
@@ -127,8 +125,6 @@ const Level = () => {
       .catch((err) => console.log(err));
   }, [language_id]);
 
-  // console.log("Language Id :",language_id,"Language :",language);
-
   lastFiveRecentPosts = lastpost.slice(-5).reverse();
   recentPosts = lastFiveRecentPosts;
 
@@ -183,7 +179,6 @@ const Level = () => {
     });
   });
 
-  console.log("Final :", Datas_);
 
   return (
     <div className="bodyy">
@@ -208,7 +203,6 @@ const Level = () => {
             </thead>
             <tbody>
               {Datas_.filter((item, i) => {
-                console.log("item :", item);
                 return !search || search.trim() === ""
                   ? true
                   : item?.level?.toLowerCase().includes(search.toLowerCase());

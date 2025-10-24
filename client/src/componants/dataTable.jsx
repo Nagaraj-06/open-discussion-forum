@@ -132,7 +132,6 @@ export const DataTable = ({ searchh }) => {
         url: value.url,
       });
     }
-    console.log(Datas_);
 
     return Datas_;
   };
@@ -143,7 +142,6 @@ export const DataTable = ({ searchh }) => {
     if (languges.length > 0) {
       prepareData().then((data) => {
         setTableData(data);
-        console.log("Final Data_ :", data);
       });
     }
   }, [languges, posts]);
@@ -164,7 +162,6 @@ export const DataTable = ({ searchh }) => {
         <tbody>
           {tableData
             .filter((item, i) => {
-              console.log("item :", item);
               return !search || search.trim() === ""
                 ? true
                 : item?.skill?.toLowerCase().includes(search.toLowerCase());

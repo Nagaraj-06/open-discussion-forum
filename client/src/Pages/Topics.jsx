@@ -121,7 +121,6 @@ const Language = () => {
 
   return (
     <div className="bodyy">
-      {console.log("level name :", level)}
       <FirstHeader
         searchh={(data) => setSearch(data)}
         content={`${language} Programming`}

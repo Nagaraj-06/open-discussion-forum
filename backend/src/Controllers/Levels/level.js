@@ -16,7 +16,6 @@ const LevelController = {
         }
       );
     } catch (error) {
-      console.log("Error Occurs...");
       res.status(500).send({
         message: "Error occurs while fetch language datas..",
         error: error.message,
@@ -56,7 +55,6 @@ const LevelController = {
         }
       );
     } catch (error) {
-      console.log("Error Occurs...");
       res.status(500).send({
         error: error.message,
       });

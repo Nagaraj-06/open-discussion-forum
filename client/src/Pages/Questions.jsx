@@ -98,7 +98,6 @@ function Questions() {
     api
       .post("/QuestionId", { id: post_id })
       .then((res) => {
-        console.log("Question Details...", res.data[0]);
         setQues_email(res.data[0].email);
         setQuestion(res.data[0].body);
         setTitle(res.data[0].title);
@@ -113,7 +112,6 @@ function Questions() {
     api
       .post("/profile_info", { email: q_email })
       .then((res) => {
-        console.log("Username :", res.data);
         setQ_username(res.data[0].username);
         setUserId(res.data[0].id);
       })
@@ -141,7 +139,6 @@ function Questions() {
     api
       .post("/is_post_nosaved", { email, id: post_id })
       .then((res) => {
-        console.log("Saved status", post_id, res.data.status);
         if (res.data.status === "no") {
           setMarked(!marked);
           setYes_no1("no");
@@ -163,7 +160,7 @@ function Questions() {
 
     api
       .post("/addlike", { email, id: post_id })
-      .then((res) => console.log(res.data))
+      .then()
       .catch((err) => console.log(err));
   };
 
@@ -173,7 +170,7 @@ function Questions() {
 
     api
       .post("/saved", { email, id: post_id })
-      .then((res) => console.log(res.data))
+      .then()
       .catch((err) => console.log(err));
   };
 
@@ -182,7 +179,6 @@ function Questions() {
     api
       .post("/post_likes", { post_id })
       .then((res) => {
-        console.log("likes length", res.data.length);
         setLikes(res.data.length);
       })
       .catch((err) => console.log(err));
@@ -194,7 +190,7 @@ function Questions() {
       .post("/postViewData", { email, post_id })
       .then((result) => {
         if (result?.data?.Status === "Success") setViews((v) => v + 1);
-        else console.log("views Already added");
+        // else console.log("views Already added");
       })
       .catch((err) => console.log(err));
   };
@@ -230,7 +226,6 @@ function Questions() {
     api
       .post(url, formData)
       .then((res) => {
-        console.log(res, editReplyId == null ? "Reply added" : "Reply edited");
         setReply("");
         setFile("");
       })
@@ -258,7 +253,6 @@ function Questions() {
     api
       .post("/delt", { id: post_id })
       .then((res) => {
-        console.log(res.data);
         navigate(`/${language_id}/${level_id}`);
       })
       .catch((err) => console.log(err));
@@ -268,7 +262,7 @@ function Questions() {
   function deltReply(Main_ReplyId) {
     api
       .post("/deltReply", { MainReplyId: Main_ReplyId })
-      .then((res) => console.log(res.data))
+      .then()
       .catch((err) => console.log(err));
   }
 
@@ -283,7 +277,6 @@ function Questions() {
     api
       .post("/EditReply", { id })
       .then((res) => {
-        console.log("Editing Main reply..", res.data);
         setEditReplyId(res.data[0].id);
         setReply(res.data[0].body);
         setFile(
@@ -340,7 +333,6 @@ function Questions() {
           <p>{question}</p>
         </div>
         <div className="secimg">
-          {/* {console.log("Image :",image)} */}
           {image != null && (
             <img src={`${api.defaults.baseURL}/images/${image}`} alt="xy" />
           )}
@@ -539,8 +531,6 @@ function Questions() {
                       post_id={post_id}
                       MainReplyId={value.id}
                     />
-
-                    {/* {console.log("Checking Questions and Main Reply Email :",email,value.from_email)} */}
                     <div className="actions">
                       {value.from_email == email ? (
                         <div className="actions">

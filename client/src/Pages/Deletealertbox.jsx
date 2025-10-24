@@ -23,7 +23,6 @@ export const Deletealertbox = ({aa,...props}) => {
     };
 
     const handleConfirmDelete = () => {
-        console.log('Item deleted');
         setYes_no("yes");  
         props?.senddd("yes");
         handleCancelDelete();

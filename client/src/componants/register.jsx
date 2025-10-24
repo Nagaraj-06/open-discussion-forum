@@ -42,8 +42,6 @@ const Register = () => {
           password: password,
         })
         .then((res) => {
-          console.log(res.data);
-
           if (res.data?.status == true) {
             console.error("Login failed:", error);
             toast.error("Email Id is Already Exist !", {
