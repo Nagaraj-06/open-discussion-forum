@@ -96,10 +96,6 @@ const Home = () => {
   FiveRecentPosts = allposts.slice(-5).reverse();
   RecentPosts = FiveRecentPosts;
 
-  if (!email) {
-    return <h1>"HI ! Email "</h1>;
-  }
-
   return (
     <div className="bodyy">
       <FirstHeader

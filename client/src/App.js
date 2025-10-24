@@ -121,58 +121,6 @@ function App() {
 
           <Route path="/Discussion/Questions" element={<Questions />} />
           <Route path="/profile" element={<Account />} />
-
-          {/* <Route path="/C">              
-                         <Route path='Level1' element={ <Language/> } />
-                         <Route path='Level2' element={ <Language/> } />
-                         <Route path='Level3' element={ <Language/> } />
-                         <Route path='Level4' element={ <Language/> } />
-                    </Route> */}
-
-          <Route path="/Python">
-            <Route path="Level1" element={<Language />} />
-            <Route path="Level2" element={<Language />} />
-            <Route path="Level3" element={<Language />} />
-            <Route path="Level4" element={<Language />} />
-          </Route>
-          <Route path="/Java">
-            <Route path="Level1" element={<Language />} />
-            <Route path="Level2" element={<Language />} />
-            <Route path="Level3" element={<Language />} />
-            <Route path="Level4" element={<Language />} />
-          </Route>
-          <Route path="/UIUX">
-            <Route path="Level1" element={<Language />} />
-            <Route path="Level2" element={<Language />} />
-            <Route path="Level3" element={<Language />} />
-            <Route path="Level4" element={<Language />} />
-          </Route>
-
-          <Route path="/C">
-            <Route path="Level1/discussion" element={<Questions />} />
-            <Route path="Level2/discussion" element={<Questions />} />
-            <Route path="Level3/discussion" element={<Questions />} />
-            <Route path="Level4/discussion" element={<Questions />} />
-          </Route>
-          <Route path="/Python">
-            <Route path="Level1/discussion" element={<Questions />} />
-            <Route path="Level2/discussion" element={<Questions />} />
-            <Route path="Level3/discussion" element={<Questions />} />
-            <Route path="Level4/discussion" element={<Questions />} />
-          </Route>
-          <Route path="/Java">
-            <Route path="Level1/discussion" element={<Questions />} />
-            <Route path="Level2/discussion" element={<Questions />} />
-            <Route path="Level3/discussion" element={<Questions />} />
-            <Route path="Level4/discussion" element={<Questions />} />
-          </Route>
-          <Route path="/UIUX">
-            <Route path="Level1/discussion" element={<Questions />} />
-            <Route path="Level2/discussion" element={<Questions />} />
-            <Route path="Level3/discussion" element={<Questions />} />
-            <Route path="Level4/discussion" element={<Questions />} />
-          </Route>
-
           <Route path="/failed" element={<Failed_Auth />} />
         </Route>
 

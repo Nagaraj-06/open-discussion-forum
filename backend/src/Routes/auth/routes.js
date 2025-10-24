@@ -99,7 +99,7 @@ router.get(
 
             const token = jwt.sign(
               { username: userName, email: userEmail },
-              "jwt-secret-key",
+               process.env.secret_key,
               { expiresIn: "1d" }
             );
             res.cookie("token", token);
