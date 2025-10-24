@@ -87,12 +87,6 @@ app.use(posts_routes);
 app.use(replies_routes);
 app.use(saves_routes);
 
-app.get("/success", (req, res) => {
-  const [displayName, email, pic] = req.user;
-  // res.sendFile((path.join(__dirname,'./public/success','Success.js')));
-  res.redirect(`http://localhost:4000/success`);
-});
-
 app.get("/failed", (req, res) => {
   req.session.destroy((err) => {
     if (err) {

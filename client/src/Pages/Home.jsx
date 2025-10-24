@@ -35,23 +35,23 @@ const Home = () => {
   Cookies.remove("Ac_select");
 
   // 🟢 Check authentication
-  // useEffect(() => {
-  //   api
-  //     .get("/protected")
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       if (res.data.status === "success") {
-  //         setAuth(true);
-  //         setUsername(res.data.name);
-  //         setEmail(res.data.email);
-  //         console.log("Retrieved token data:", res.data);
-  //       } else {
-  //         setAuth(false);
-  //         navigate("/");
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  useEffect(() => {
+    api
+      .get("/protected")
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status === "success") {
+          setAuth(true);
+          setUsername(res.data.name);
+          setEmail(res.data.email);
+          console.log("Retrieved token data:", res.data);
+        } else {
+          setAuth(false);
+          navigate("/");
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   // 🟢 Get all usernames
   useEffect(() => {

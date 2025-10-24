@@ -83,7 +83,7 @@ function App() {
 
         {/* Protected Routes  */}
 
-        <Route element={<ProtectedRoute />}>
+        {/* <Route element={<ProtectedRoute />}> */}
           {/* 
                     {languages.map((item, i) => {
                     
@@ -122,7 +122,7 @@ function App() {
           <Route path="/Discussion/Questions" element={<Questions />} />
           <Route path="/profile" element={<Account />} />
           <Route path="/failed" element={<Failed_Auth />} />
-        </Route>
+        {/* </Route> */}
 
         {/* <Route path='/Discussion/view_reply' element={<View_reply/>} /> */}
       </Routes>
