@@ -110,9 +110,9 @@ router.get(
             });
             // res.send(result);
 
-            return res.redirect("http://localhost:4000/Home");
+            return res.redirect(`${process.env.frontend_url}/Home`);
           } else {
-            return res.redirect("http://localhost:4000/failed");
+            return res.redirect(`${process.env.frontend_url}/failed`);
           }
         }
       }
