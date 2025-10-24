@@ -1,19 +1,20 @@
-import React from "react";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import api from "./api/axiosConfig";
 
 const ProtectedRoute = () => {
-  let email, username;
+  const [isAuth, setIsAuth] = useState(null);
 
-  const jwt_token = Cookies.get("token");
-  if (jwt_token) {
-    const decode_payload = jwtDecode(jwt_token);
-    email = decode_payload.email;
-    username = decode_payload.username;
-  }
+  useEffect(() => {
+    api
+      .get("/verify-user") // backend route
+      .then(() => setIsAuth(true))
+      .catch(() => setIsAuth(false));
+  }, []);
 
-  return jwt_token != null ? <Outlet /> : <Navigate to={`/`} />;
+  if (isAuth === null) return <p>Loading...</p>;
+
+  return isAuth ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoute;

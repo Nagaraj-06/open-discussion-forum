@@ -103,6 +103,10 @@ app.get("/failed", (req, res) => {
   res.redirect(`http://localhost:9000/`);
 });
 
+app.get("/verify-user", verifyToken, (req, res) => {
+  res.json({ success: true, user: req.user });
+});
+
 app.listen(2000, () => {
   console.log("Server is Listening On Port 2000..!");
 });
