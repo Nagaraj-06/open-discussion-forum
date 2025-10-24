@@ -10,6 +10,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import BottomDrawer from "./BottomDrawer";
 import { Deletealertbox } from "./Deletealertbox";
 import { FaPen } from "react-icons/fa6";
+import api from "../api/axiosConfig";
 
 const Subreplies = ({
   MainReplyId,
@@ -45,58 +46,41 @@ const Subreplies = ({
     // Handle file selection
     setFile(e.target.files[0]);
   };
-
+  // Fetch usernames
   useEffect(() => {
-    axios
-      .get("http://localhost:2000/usernames")
-      .then((res) => {
-        setUsernames(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    api
+      .get("/usernames")
+      .then((res) => setUsernames(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
-  function deltReply(Sub_ReplyId) {
-    axios
-      .post("http://localhost:2000/deltReply", {
-        SubReplyId: Sub_ReplyId,
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
+  // Fetch subreplies
+  useEffect(() => {
+    let data = {};
+    if (SubReplyId == null) data = { MainReplyId };
+    else if (MainReplyId == null) data = { SubReplyId };
+
+    api
+      .post("/getSubreplies1", data)
+      .then((res) => setSubb(res.data))
+      .catch((err) => console.log(err));
+  }, [MainReplyId, SubReplyId]);
+
+  // Delete subreply
+  function deltReply(subId) {
+    api
+      .post("/deltReply", { SubReplyId: subId })
+      .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   }
 
-  if (SubReplyId == null) {
-    axios
-      .post("http://localhost:2000/getSubreplies1", {
-        MainReplyId: MainReplyId,
-      })
-      .then((res) => {
-        setSubb(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } else if (MainReplyId == null) {
-    axios
-      .post("http://localhost:2000/getSubreplies1", { SubReplyId: SubReplyId })
-      .then((res) => {
-        setSubb(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
+  // Edit subreply
   function EditSubReply(e, id) {
     e.preventDefault();
-    axios
-      .post("http://localhost:2000/EditSubReply", { id: id })
+    api
+      .post("/EditSubReply", { id })
       .then((res) => {
         console.log("Editing sub reply data..", res.data);
-
         setEditReplyId(res.data[0].id);
         setReply(res.data[0].body);
         if (res.data[0].image) {
@@ -112,39 +96,26 @@ const Subreplies = ({
       .catch((err) => console.log(err));
   }
 
+  // Submit edited subreply
   function handleSubmit1(event) {
     event.preventDefault();
 
     let formData1 = new FormData();
-
     formData1.append("post_id", post_id);
     formData1.append("sub_id", editReplyId);
     formData1.append("body", reply);
+    formData1.append("image", file || "");
 
-    if (file) {
-      formData1.append("image", file);
-    } else {
-      formData1.append("image", "");
-    }
-    console.log(
-      "post_id :",
-      post_id,
-      " edit replyId",
-      editReplyId,
-      reply,
-      file
-    );
+    console.log("post_id:", post_id, "editReplyId:", editReplyId, reply, file);
 
-    axios
-      .post("http://localhost:2000/Editsubreplies", formData1)
+    api
+      .post("/Editsubreplies", formData1)
       .then((res) => {
         console.log(res.data);
         setReply("");
         setFile("");
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -155,7 +126,7 @@ const Subreplies = ({
           padding: "20px 0",
         };
 
-        let name,userId;
+        let name, userId;
 
         {
           usernames.forEach((u_name) => {
@@ -193,7 +164,7 @@ const Subreplies = ({
                   <div className="secimg">
                     {value.image != null ? (
                       <img
-                        src={`http://localhost:2000/images/${value.image}`}
+                        src={`${api.defaults.baseURL}/images/${value.image}`}
                         alt="xyz"
                       />
                     ) : null}

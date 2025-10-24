@@ -4,6 +4,7 @@ const router = require("express").Router();
 const db = require("../../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 var today = new Date();
 var year = today.getFullYear();
@@ -23,7 +24,7 @@ const VerifyUser = (req, res, next) => {
   if (!token) {
     return res.json({ Error: "You are not Authenticated" });
   } else {
-    const user = jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+    const user = jwt.verify(token, process.env.secret_key, (err, decoded) => {
       if (err) {
         // console.log({Error:"Secret Key is Not Okay..!"});
         return "token expired";
@@ -53,6 +54,10 @@ const VerifyUser = (req, res, next) => {
     }
   }
 };
+
+router.get("/auth", (req, res) => {
+  res.send("Hello from auth-routes !!!");
+});
 
 router.get(
   "/google",

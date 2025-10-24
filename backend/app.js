@@ -69,11 +69,17 @@ const fav_routes = require("./src/Routes/Fav/fav");
 const posts_routes = require("./src/Routes/posts/routes");
 const replies_routes = require("./src/Routes/Replies/routes");
 const saves_routes = require("./src/Routes/saved/index");
+const { verifyToken } = require("./src/middleware/authMiddleware");
 
+app.get("/", (req, res) => {
+  res.send("Hi");
+});
 
 // Routes
-app.use(router);
 app.use(auth_routes);
+
+app.use(verifyToken);
+app.use(router);
 app.use(user_routes);
 app.use(views_routes);
 app.use(fav_routes);
@@ -97,71 +103,6 @@ app.get("/failed", (req, res) => {
   res.redirect(`http://localhost:4000/`);
 });
 
-app.get("/", (req, res) => {
-  res.send("Hi");
-});
-
 app.listen(2000, () => {
   console.log("Server is Listening On Port 2000..!");
 });
-
-// app.post('/upload',upload.single('image'), (req,res)=>{
-
-//     // console.log(req.file);
-//     const image =req.file.filename;
-//     db.query('update questions set image =?',
-//         [image],
-//         (err,result)=>{
-//             if(err){
-//                 console.log(err);
-//                 res.json({Status:"Failed"});
-//             }
-//             else{
-//                 res.json({Status:"Success"})
-//             }
-//         }
-//     )
-// })
-
-// app.post('/register', (req, res) => {
-//     const {username,email,password} =req.body;
-
-//     // req.session.username=req.body.username;
-//     // req.session.email=req.body.email;
-
-//     // console.log("session datas..",req.session.username,req.session.email);
-
-//         db.query('SELECT email FROM users WHERE email = ?',
-//         [ email ],
-//         (err, result) => {
-//             if (err) {
-//                 console.log(err);
-//                 res.status(500).send('Database error');
-//             }
-//             else if (result.length > 0) {
-//                 res.send( {status : true} )
-//             }
-//             else {
-//                     // bcrypt.hash(password.toString(),hash_digits,(err,hashed)=>{
-//                         // if(err) return res.json({ Error: "Error occurs while Hashing Password"});
-
-//                         db.query(
-//                             'INSERT INTO users (username,email,password) VALUES (?, ?, ?)',
-//                             [username,email,password],
-//                             // [username,email,hashed],
-//                             (err, result) => {
-//                                 if (err) {
-//                                     console.log(err);
-//                                     res.status(500).send('Database error');
-//                                 } else {
-//                                     res.send('User registered Successfully..!');
-//                                 }
-//                             }
-//                         );
-
-//                     // })
-
-//             }
-//         }
-//     );
-// });

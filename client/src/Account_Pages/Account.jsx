@@ -16,6 +16,7 @@ import { Saved } from '@blueprintjs/icons';
 import Savedd from './saved';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
+import api from '../api/axiosConfig';
 
 
 const Account = () => {
@@ -120,65 +121,46 @@ const Account = () => {
   // email=Params1;
   let userId=Params2;
 
-  useEffect(()=>{
-    axios.get("http://localhost:2000/profile_infoId",{
-      params:{
-        userId:userId
-      }
-    })
-    .then((res)=>{
-      setEmail(res.data[0]?.email);
-    })
-  },[]);
+  useEffect(() => {
+    api.get("/profile_infoId", { params: { userId } })
+      .then((res) => setEmail(res.data[0]?.email))
+      .catch((err) => console.log(err));
+  }, [userId]);
 
-  useEffect(()=>{
-    axios.post("http://localhost:2000/profile_info",{email:email})
-    .then((res)=>{
-      // console.log(res.data)
-      setUsername(res.data[0]?.username);
+  // 🟢 Get username by email
+  useEffect(() => {
+    if (!email) return;
+    api.post("/profile_info", { email })
+      .then((res) => setUsername(res.data[0]?.username))
+      .catch((err) => console.log(err));
+  }, [email]);
 
-    })
-  },[email]);
+  // 🟢 Get full profile info
+  useEffect(() => {
+    if (!email) return;
+    api.post("/profile_info", { email })
+      .then((res) => setResult(res.data))
+      .catch((err) => console.log(err));
+  }, [email]);
+
+  // 🟢 Get user posts
+  useEffect(() => {
+    if (!email) return;
+    api.post("/userPosts", { email })
+      .then((res) => setQuestions(res.data))
+      .catch((err) => console.log(err));
+  }, [email]);
+
+  // 🟢 Get user replies
+  useEffect(() => {
+    if (!email) return;
+    api.post("/userReplies", { email })
+      .then((res) => setReplies(res.data))
+      .catch((err) => console.log(err));
+  }, [email]);
 
   let arr2=[],arr4=[]
-
-  useEffect(()=>{
-    axios.post('http://localhost:2000/profile_info',{
-      email:email
-    })
-    .then((res)=>{
-      setResult(res.data)
-    }).catch((err)=>{
-      console.log(err)
-    })
-  },[email]);
-
   
-  useEffect(()=>{
-    axios.post("http://localhost:2000/userPosts",{
-      email:email
-    })
-    .then((res)=>{
-      setQuestions(res.data);
-    }).catch((err)=>{
-      console.log(err);
-    })
-  },[email]);
-
-  
-useEffect(()=>{
-
-    axios.post("http://localhost:2000/userReplies",{
-      email:email
-    })
-    .then((res)=>{
-      setReplies(res.data);     
-    }).catch((err)=>{
-      console.log(err);
-    })
-},[email]);
-
-
 const handleClick =(component) =>{
   setSelectedComponent(component);
 };

@@ -6,6 +6,7 @@ import axios from 'axios';import { IoHome, IoLogOutSharp } from 'react-icons/io5
 import { MdAccountCircle, MdForum } from 'react-icons/md';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
+import api from '../api/axiosConfig';
 
 
 export const Header1 = ({email,selectedComponent}) => {
@@ -14,23 +15,24 @@ export const Header1 = ({email,selectedComponent}) => {
   const navigate = useNavigate();
   const [userId,setUserId]=useState();
   
-  useEffect(()=>{
-    axios.post("http://localhost:2000/profile_info",{email:email})
-    .then((res)=>{
-      setUserId(res.data[0]?.id);
+// 🟢 Fetch user profile info by email
+useEffect(() => {
+  if (!email) return; // wait until email is set
+  api.post("/profile_info", { email })
+    .then(res => setUserId(res.data[0]?.id))
+    .catch(err => console.log(err));
+}, [email]);
 
+// 🟢 Logout user
+function handleDelete() {
+  api.get("/logout", { params: { email } })
+    .then(res => {
+      console.log(res.data);
+      navigate("/");
     })
-  },[email]);
- 
+    .catch(err => console.log(err));
+}
 
-  function handleDelete() {
-    axios.get("http://localhost:2000/logout",{ params :{ email:email }} )
-    .then((res)=> {
-        console.log(res.data);
-        navigate('/')
-    })
-    .catch((err)=> console.log(err));
-  }
 
   return (
       <>
