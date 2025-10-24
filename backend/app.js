@@ -78,7 +78,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use(auth_routes);
 
-app.use(verifyToken);
+// app.use(verifyToken);
 app.use(router);
 app.use(user_routes);
 app.use(views_routes);
