@@ -19,7 +19,7 @@ dotenv.config({
 
 app.use(
   cors({
-    origin: "https://project-omega-lime-69.vercel.app",
+    origin: process.env.frontend_url,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
