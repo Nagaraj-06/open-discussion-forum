@@ -19,8 +19,8 @@ dotenv.config({
 
 app.use(
   cors({
-    origin: "https://project-f931w2ijo-mass-nagarajs-projects.vercel.app",
-    methods: ["POST", "GET"],
+    origin: "https://project-omega-lime-69.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
