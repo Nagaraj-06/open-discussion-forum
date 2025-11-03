@@ -101,7 +101,7 @@ router.get(
             );
 
             res.cookie("token", token, {
-              httpOnly: false,
+              httpOnly: true,
               secure: true, // true for HTTPS only
               sameSite: "None", // important for cross-site cookies
             });
