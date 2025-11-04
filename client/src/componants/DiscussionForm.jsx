@@ -33,16 +33,19 @@ const Discussionform = () => {
   const [pre_image, setPre_image] = useState(null);
   const navigate = useNavigate();
   let formData = new FormData();
+  const [email, setEmail] = useState("");
 
-  let email, username;
-
-  const jwt_token = Cookies.get("token");
-  if (jwt_token) {
-    const decode_payload = jwtDecode(jwt_token);
-    email = decode_payload.email;
-    username = decode_payload.username;
-  }
-
+  useEffect(() => {
+    api
+      .get("/api/user", { withCredentials: true }) // sends the cookie automatically
+      .then((res) => {
+        setEmail(res.data.email);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("User not authenticated:", err);
+      });
+  }, []);
   Cookies.remove("Ac_select");
 
   const MyKeyValues = window.location.search;

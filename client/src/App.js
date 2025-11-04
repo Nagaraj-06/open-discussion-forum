@@ -36,7 +36,8 @@ function App() {
   const [languages, setLanguages] = useState([]);
   const [levels, setLevels] = useState([]);
   const [posts, setPosts] = useState([]);
-  let email, username;
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     api
@@ -59,12 +60,18 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
-  const jwt_token = Cookies.get("token");
-  if (jwt_token) {
-    const decode_payload = jwtDecode(jwt_token);
-    email = decode_payload.email;
-    username = decode_payload.username;
-  }
+  useEffect(() => {
+    api
+      .get("/api/user", { withCredentials: true }) // sends the cookie automatically
+      .then((res) => {
+        setEmail(res.data.email);
+        setUsername(res.data.username);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("User not authenticated:", err);
+      });
+  }, []);
 
   return (
     <BrowserRouter>

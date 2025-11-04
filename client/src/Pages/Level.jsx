@@ -32,15 +32,6 @@ const Level = () => {
   const [levels, setLevels] = useState([]);
 
   const [reply_count, setReply_count] = useState([]);
-  const [auth, setAuth] = useState("");
-  let email, username;
-
-  const jwt_token = Cookies.get("token");
-  if (jwt_token) {
-    const decode_payload = jwtDecode(jwt_token);
-    email = decode_payload.email;
-    username = decode_payload.username;
-  }
 
   Cookies.remove("Ac_select");
 
@@ -178,7 +169,6 @@ const Level = () => {
       url: `/${language_id}/${level.id}`,
     });
   });
-
 
   return (
     <div className="bodyy">

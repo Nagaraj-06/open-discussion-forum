@@ -29,16 +29,16 @@ export const FirstHeader = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    const jwt_token = Cookies.get("token");
-    if (jwt_token) {
-      const decode_payload = jwtDecode(jwt_token);
-      // console.log("email from payload : " + decode_payload.email);
-
-      setEmail(decode_payload.email);
-      setUsername(decode_payload.username);
-    } else {
-      // console.log("token not found ");
-    }
+    api
+      .get("/api/user", { withCredentials: true }) // sends the cookie automatically
+      .then((res) => {
+        setEmail(res.data.email);
+        setUsername(res.data.username);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("User not authenticated:", err);
+      });
   }, []);
 
   // 🟢 Logout user

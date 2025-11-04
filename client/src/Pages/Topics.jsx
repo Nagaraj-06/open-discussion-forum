@@ -46,14 +46,6 @@ const Language = () => {
   const language_id = path?.split("/")[1];
   const level_id = path?.split("/")[2];
 
-  let email, username;
-  const jwt_token = Cookies.get("token");
-  if (jwt_token) {
-    const decode_payload = jwtDecode(jwt_token);
-    email = decode_payload.email;
-    username = decode_payload.username;
-  }
-
   Cookies.remove("Ac_select");
 
   // Get Language

@@ -117,6 +117,18 @@ router.get(
   }
 );
 
+router.get("/api/user", (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "No token" });
+
+    const decoded = jwt.verify(token, process.env.secret_key);
+    res.json({ email: decoded.email, username: decoded.username });
+  } catch (err) {
+    res.status(403).json({ message: "Invalid token" });
+  }
+});
+
 router.get("/logout", (req, res) => {
   // Destroy the session
   const email = req.query.email;
