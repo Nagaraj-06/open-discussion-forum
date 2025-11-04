@@ -25,7 +25,6 @@ export const FirstHeader = ({
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState();
   const { setUser } = useContext(UserContext);
-  const { user } = useContext(UserContext);
 
   props?.searchh(search);
   axios.defaults.withCredentials = true;
