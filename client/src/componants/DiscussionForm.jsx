@@ -14,6 +14,8 @@ import FileUpload from "./FileUpload";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import api from "../api/axiosConfig";
+import { useContext } from "react";
+import { UserContext } from "../Pages/UserContext";
 
 const Discussionform = () => {
   const [languages, setLanguages] = useState([]);
@@ -33,19 +35,8 @@ const Discussionform = () => {
   const [pre_image, setPre_image] = useState(null);
   const navigate = useNavigate();
   let formData = new FormData();
-  const [email, setEmail] = useState("");
+  const { user } = useContext(UserContext);
 
-  useEffect(() => {
-    api
-      .get("/api/user", { withCredentials: true }) // sends the cookie automatically
-      .then((res) => {
-        setEmail(res.data.email);
-        // console.log(res.data);
-      })
-      .catch((err) => {
-        console.log("User not authenticated:", err);
-      });
-  }, []);
   Cookies.remove("Ac_select");
 
   const MyKeyValues = window.location.search;
@@ -114,7 +105,7 @@ const Discussionform = () => {
   }, [language_id, level_id]);
 
   if (EditPostId != null) {
-    if (editor != email) {
+    if (editor != user.email) {
       return <p>Questions Editing Only Access For Question poster...</p>;
     }
   }
@@ -132,7 +123,7 @@ const Discussionform = () => {
 
   // console.log("Before :", language_id, level_id);
 
-  formData.append("email", email);
+  formData.append("email", user.email);
   // These are edit from already added Post (language_id,level_id)
   formData.append("language_id", Number(language_id));
   formData.append("level_id", Number(level_id));
@@ -231,7 +222,7 @@ const Discussionform = () => {
 
   return (
     <div>
-      <Header1 email={email} />
+      <Header1 email={user.email} />
       <div className="form-container">
         <ToastContainer
           position="top-center"

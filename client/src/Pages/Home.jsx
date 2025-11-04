@@ -14,6 +14,8 @@ import { jwtDecode } from "jwt-decode";
 import "../Account_Pages/Recentreply.css";
 import Img11 from "../assets/NotYetPost.jpg";
 import api from "../api/axiosConfig";
+import { UserContext } from "./UserContext";
+import { useContext } from "react";
 
 const Home = () => {
   const location = useLocation();
@@ -22,34 +24,15 @@ const Home = () => {
   const [languagesCount, setLanguagesCount] = useState();
   const [levelCount, setLevelCount] = useState();
 
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [postsCount, setPostsCount] = useState();
   const [allposts, setAllposts] = useState([]);
   let RecentPosts, FiveRecentPosts;
-  const [auth, setAuth] = useState("");
+  const { user } = useContext(UserContext);
 
   axios.defaults.withCredentials = true;
-  let result = "";
+
   const navigate = useNavigate();
   Cookies.remove("Ac_select");
-
-  // 🟢 Check authentication
-  useEffect(() => {
-    api
-      .get("/protected")
-      .then((res) => {
-        if (res.data.status === "success") {
-          setAuth(true);
-          setUsername(res.data.name);
-          setEmail(res.data.email);
-        } else {
-          setAuth(false);
-          navigate("/");
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   // 🟢 Get all usernames
   useEffect(() => {

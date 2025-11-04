@@ -8,6 +8,8 @@ import { MdAccountCircle, MdForum } from "react-icons/md";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import api from "../api/axiosConfig";
+import { UserContext } from "../Pages/UserContext";
+import { useContext } from "react";
 
 export const FirstHeader = ({
   Level_name,
@@ -22,6 +24,8 @@ export const FirstHeader = ({
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState();
+  const { setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   props?.searchh(search);
   axios.defaults.withCredentials = true;
@@ -42,12 +46,13 @@ export const FirstHeader = ({
   }, []);
 
   // 🟢 Logout user
+
   function handleDelete() {
     api
-      .get("/logout", { params: { email } })
+      .get("/logout", { params: { email }, withCredentials: true })
       .then((res) => {
-        console.log(res.data);
-        navigate("/");
+        setUser(null); // 👈 clear user data from context
+        navigate("/"); // 👈 go back to login
       })
       .catch((err) => console.log(err));
   }

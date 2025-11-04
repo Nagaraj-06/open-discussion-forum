@@ -72,6 +72,7 @@ router.get(
   function (req, res) {
     const userEmail = req.user?.emails[0].value;
     const userName = req.user?.displayName ?? req.user?.given_name;
+
     db.query(
       "select email from users where email=? ",
       [userEmail],
@@ -84,12 +85,10 @@ router.get(
             db.query(
               "update users set date=?,time=? where email=?",
               [fecha, fecha1, userEmail],
-              (err, resultt) => {
-                if (err) {
-                  console.log(err);
+              (err2) => {
+                if (err2) {
+                  console.log(err2);
                   return res.status(500).send("Server error");
-                } else {
-                  // console.log("Date and time Updated ");
                 }
               }
             );
@@ -102,12 +101,12 @@ router.get(
 
             res.cookie("token", token, {
               httpOnly: true,
-              secure: true, // true for HTTPS only
-              sameSite: "None", // important for cross-site cookies
+              secure: true, // use true if running HTTPS (in dev, can set false)
+              sameSite: "None", // for cross-origin cookies
             });
-            // res.send(result);
 
-            return res.redirect(`${process.env.frontend_url}/Home`);
+            // 👇 Redirect to the frontend success handler
+            return res.redirect(`${process.env.frontend_url}/auth/success`);
           } else {
             return res.redirect(`${process.env.frontend_url}/failed`);
           }
