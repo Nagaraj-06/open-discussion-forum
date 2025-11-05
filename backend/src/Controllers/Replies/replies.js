@@ -564,7 +564,7 @@ const ReplyController = {
       const { language_id, level_id } = req.body;
 
       db.query(
-        "select * from reply_details where level_id=? and language_id=?",
+        "select * from reply_details where language_id=? and level_id=?",
         [language_id, level_id],
         (err, result) => {
           if (err) {

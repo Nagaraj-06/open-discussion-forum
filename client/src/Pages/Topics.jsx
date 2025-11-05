@@ -72,7 +72,9 @@ const Language = () => {
   useEffect(() => {
     api
       .post("/Getpost_programLevel", { language_id, level_id })
-      .then((res) => setQuestions(res.data))
+      .then((res) => {
+        setQuestions(res.data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -90,15 +92,17 @@ const Language = () => {
       .get("/users")
       .then((res) => setUsers(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [])
 
   // Get replies details
   useEffect(() => {
     api
       .post("/GetReplyLang_Level", { language_id, level_id })
-      .then((res) => setReplies_details(res.data))
+      .then((res) => {
+        setReplies_details(res.data);
+      })
       .catch((err) => console.log(err));
-  }, [language, level]);
+  }, []);
 
   // Get views
   useEffect(() => {
@@ -165,9 +169,6 @@ const Language = () => {
                       [Hours, Minutes] = reply_details?.time.split(":");
                       let lastpostTime = [Number(Hours), Number(Minutes)];
 
-                      //----
-
-                      // lastReply_username=reply_details?.username;
                       lastReply_id = reply_details?.id;
                       lastReply_email = reply_details?.from_email;
                       a = FindDate({ arr2: lastpostDate, arr4: lastpostTime });
