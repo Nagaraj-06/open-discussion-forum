@@ -19,7 +19,7 @@ export const FirstHeader = ({
   Posts,
   ...props
 }) => {
-  const [users, setUsers] = useState("");
+  const [usersCount, setUsersCount] = useState("");
   const [search, setSearch] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -59,8 +59,8 @@ export const FirstHeader = ({
   // 🟢 Fetch all users (once)
   useEffect(() => {
     api
-      .get("/users")
-      .then((res) => setUsers(res.data))
+      .get("/getUsersCount")
+      .then((res) => setUsersCount(res.data[0].total_users))
       .catch((err) => console.log(err));
   }, []);
 
@@ -134,7 +134,7 @@ export const FirstHeader = ({
           <table>
             <tr>
               <th>Registered Users</th>
-              <td>{users.length}</td>
+              <td>{usersCount}</td>
             </tr>
             <tr>
               <th>Language</th>

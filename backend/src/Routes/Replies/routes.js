@@ -20,6 +20,8 @@ const upload = multer({
   storage: storage,
 });
 
+router.get("/getRecentReplies", ReplyController.getRecentReplies);
+
 // Add a new Reply
 router.post("/mainreplies", upload?.single("image"), ReplyController.addReply);
 

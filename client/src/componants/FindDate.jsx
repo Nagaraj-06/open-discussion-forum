@@ -1,46 +1,27 @@
-import React from "react";
+export default function FindDate({ dateStr, timeStr }) {
+  try {
+    if (!dateStr || !timeStr) return "Just Now";
 
-const FindDate = ({ arr2, arr4 }) => {
-  let showdate = new Date();
+    // Merge date and time properly
+    const backendDate = new Date(`${dateStr.split("T")[0]}T${timeStr}Z`);
+    const now = new Date();
 
-  var today = new Date();
-  var year = today.getFullYear();
-  var mes = today.getMonth() + 1;
-  var dia = today.getDate();
-  var fecha = year + "-" + mes + "-" + dia;
+    const diffMs = now - backendDate;
+    if (diffMs < 0) return "Just Now";
 
-  var hour = today.getHours();
-  var minutes = today.getMinutes();
-  var seconds = today.getSeconds();
-  var fecha1 = hour + ":" + minutes + ":" + seconds;
+    const diffMin = Math.floor(diffMs / 60000);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+    const diffMonth = Math.floor(diffDay / 30);
+    const diffYear = Math.floor(diffDay / 365);
 
-  // let displayTodaysDate=showdate.getDate()+'-'+(showdate.getMonth()+1)+'-'+showdate.getFullYear();
-  // let dt=showdate.toDateString()
-  // let displayTime=showdate.getHours()+':'+showdate.getMinutes()+':'+showdate.getSeconds();
-  // const [currentDate,currentMonth,currentYear] =displayTodaysDate.split('-');
-  // const [currentHours,currentMinutes,currentsec]=displayTime.split(':');
-
-  let arr1 = [Number(dia), Number(mes), Number(year)];
-  let arr3 = [Number(hour), Number(minutes)];
-  let date;
-  // console.log("DB :arr1 arr3:",arr1,arr3);
-
-  // console.log("NOW :arr2 arr4 :",(arr2),(arr4));
-  if (arr1[2] - arr2[2] !== 0) {
-    date = arr1[2] - arr2[2] + " Years ago";
-  } else if (arr1[1] - arr2[1] !== 0) {
-    date = arr1[1] - arr2[1] + " Months ago";
-  } else if (arr1[0] - arr2[0] !== 0) {
-    date = arr1[0] - arr2[0] + " days ago";
-  } else if (arr3[0] - arr4[0] !== 0) {
-    date = arr3[0] - arr4[0] + " Hours ago";
-  } else if (arr3[1] - arr4[1] !== 0) {
-    date = arr3[1] - arr4[1] + " Minutes ago";
-  } else {
-    date = "Just Now";
+    if (diffYear > 0) return `${diffYear} year${diffYear > 1 ? "s" : ""} ago`;
+    if (diffMonth > 0) return `${diffMonth} month${diffMonth > 1 ? "s" : ""} ago`;
+    if (diffDay > 0) return `${diffDay} day${diffDay > 1 ? "s" : ""} ago`;
+    if (diffHour > 0) return `${diffHour} hour${diffHour > 1 ? "s" : ""} ago`;
+    if (diffMin > 0) return `${diffMin} minute${diffMin > 1 ? "s" : ""} ago`;
+    return "Just Now";
+  } catch (e) {
+    return "Just Now";
   }
-
-  return date;
-};
-
-export default FindDate;
+}

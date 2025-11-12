@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Footer } from "../componants/Footer";
 import { DataTable } from "../componants/dataTable";
 import Img1 from "../assets/download (1).jpeg";
-import Img2 from "../assets/download.jpeg";
-import Img5 from "../assets/image(1).png";
-import Img4 from "../assets/OIP (6).jpeg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FirstHeader } from "../componants/Header";
@@ -19,14 +16,12 @@ import { useContext } from "react";
 
 const Home = () => {
   const location = useLocation();
-  const [usernames, setUsernames] = useState([]);
   const [search, setSearch] = useState("");
   const [languagesCount, setLanguagesCount] = useState();
   const [levelCount, setLevelCount] = useState();
 
   const [postsCount, setPostsCount] = useState();
-  const [allposts, setAllposts] = useState([]);
-  let RecentPosts, FiveRecentPosts;
+  const [recentPosts, setRecentPosts] = useState([]);
   const { user } = useContext(UserContext);
 
   axios.defaults.withCredentials = true;
@@ -34,52 +29,25 @@ const Home = () => {
   const navigate = useNavigate();
   Cookies.remove("Ac_select");
 
-  // 🟢 Get all usernames
+  // 🟢 Get forum counts (languages, levels, posts)
   useEffect(() => {
     api
-      .get("/usernames")
+      .get("/forumstats")
       .then((res) => {
-        setUsernames(res.data);
+        setLanguagesCount(res.data.languages_count);
+        setLevelCount(res.data.levels_count);
+        setPostsCount(res.data.posts_count);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  // 🟢 Get posts count
+  // 🟢 Get recent posts
   useEffect(() => {
     api
-      .get("/getallposts")
-      .then((res) => {
-        setPostsCount(res.data.length);
-      })
+      .get("/recentposts")
+      .then((res) => setRecentPosts(res.data))
       .catch((err) => console.log(err));
   }, []);
-
-  // 🟢 Get languages count
-  useEffect(() => {
-    api
-      .get("/getLanguages")
-      .then((res) => setLanguagesCount(res.data.length))
-      .catch((err) => console.log(err));
-  }, []);
-
-  // 🟢 Get levels count
-  useEffect(() => {
-    api
-      .get("/getLevels")
-      .then((res) => setLevelCount(res.data.length))
-      .catch((err) => console.log(err));
-  }, []);
-
-  // 🟢 Get all posts
-  useEffect(() => {
-    api
-      .get("/getallposts")
-      .then((res) => setAllposts(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  FiveRecentPosts = allposts.slice(-5).reverse();
-  RecentPosts = FiveRecentPosts;
 
   return (
     <div className="bodyy">
@@ -97,51 +65,29 @@ const Home = () => {
           <h2>RECENT POSTS</h2>
 
           <table className="rr">
-            {RecentPosts?.map((value, index) => {
-              <div key={index}></div>;
-              let day, month, year;
-              const dateObj = new Date(value.date);
-              day = dateObj.getDate(); // Day of the month (1-31)
-              month = dateObj.getMonth() + 1; // Month (0-11, so add 1)
-              year = dateObj.getFullYear(); // Full year (e.g., 2023)
-
-              const [Hours, Minutes] = value?.time?.split(":");
-
-              let a, username, userId;
-
-              a = FindDate({
-                arr2: [Number(day), Number(month), Number(year)],
-                arr4: [Number(Hours), Number(Minutes)],
+            {recentPosts.map((value, index) => {
+              let timeAgo = FindDate({
+                dateStr: value.last_post_date,
+                timeStr: value.last_post_time,
               });
 
-              {
-                usernames.forEach((name) => {
-                  if (name.email == value.email) {
-                    username = name.username;
-                    userId = name.id;
-                  }
-                });
-              }
-
               return (
-                <tr>
+                <tr key={index}>
                   <td className="imagetd">
                     <NavLink
-                      to={`/profile?userId=${userId}`}
+                      to={`/profile?userId=${value.user_id}`}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      {" "}
-                      <img src={Img1}></img>{" "}
+                      <img src={Img1} alt="profile" />
                     </NavLink>
                   </td>
 
                   <td className="columntwo">
-                    {" "}
                     <NavLink
-                      to={`/profile?userId=${userId}`}
+                      to={`/profile?userId=${value.user_id}`}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <b>{username}</b>{" "}
+                      <b>{value.username}</b>
                     </NavLink>{" "}
                     on
                     <br />
@@ -151,15 +97,14 @@ const Home = () => {
                     >
                       {value.title}
                       <br />
-                      {a}
+                      {timeAgo}
                     </NavLink>
                   </td>
                 </tr>
-                // </tbody>
               );
             })}
 
-            {RecentPosts?.length == 0 ? (
+            {recentPosts?.length == 0 ? (
               <tr className="nopostsyet">
                 <img src={Img11} />
                 No Interactions yet ! <br /> Feel free to make one
@@ -168,7 +113,6 @@ const Home = () => {
           </table>
         </div>
       </div>
-      {/* <Footer/> */}
     </div>
   );
 };

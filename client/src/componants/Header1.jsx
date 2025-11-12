@@ -12,9 +12,8 @@ import { UserContext } from "../Pages/UserContext";
 import { useContext } from "react";
 
 export const Header1 = ({ email, selectedComponent }) => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { user,setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [userId, setUserId] = useState();
 
   // 🟢 Fetch user profile info by email

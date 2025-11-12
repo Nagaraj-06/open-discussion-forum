@@ -1,6 +1,32 @@
 const db = require("../../config/db");
 
 const ReplyController = {
+  getRecentReplies: async (req, res) => {
+    const { language_id, level_id } = req.query;
+    const sql = `
+      SELECT 
+        q.id AS post_id,
+        q.title AS topic_name,
+        r.id AS reply_id,
+        r.from_email,
+        u.id AS user_id,
+        u.username,
+        r.date,
+        r.time
+      FROM reply_details r
+      LEFT JOIN users u ON u.email = r.from_email
+      LEFT JOIN questions q ON q.id = r.post_id
+      WHERE r.language_id = ? AND r.level_id = ?
+      ORDER BY CONCAT(r.date, ' ', r.time) DESC
+      LIMIT 5;
+    `;
+
+    db.query(sql, [language_id, level_id], (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(200).json(result);
+    });
+  },
+
   addReply: async (req, res) => {
     try {
       const from_email = req.body.from_email;

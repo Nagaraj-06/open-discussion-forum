@@ -183,9 +183,9 @@ function Questions() {
   // 🟢 Get total likes
   useEffect(() => {
     api
-      .post("/post_likes", { post_id })
+      .post("/get_post_likes", { post_id })
       .then((res) => {
-        setLikes(res.data.length);
+        setLikes(res.data[0].total_likes);
       })
       .catch((err) => console.log(err));
   }, [post_id]);

@@ -24,33 +24,26 @@ const Account = () => {
   let [results, setResult] = useState([]);
   let [questions, setQuestions] = useState([]);
   const [replies, setReplies] = useState([]);
-  let showdate = new Date();
   const location = useLocation();
   const { user } = useContext(UserContext);
-
-  let displayTodaysDate =
-    showdate.getDate() +
-    "/" +
-    (showdate.getMonth() + 1) +
-    "/" +
-    showdate.getFullYear();
-  let dt = showdate.toDateString();
-  let displayTime =
-    showdate.getHours() +
-    ":" +
-    showdate.getMinutes() +
-    ":" +
-    showdate.getSeconds();
 
   let nowemail = user.email;
   const [email, setEmail] = useState();
   const MyKeyValues = window.location.search;
-  const queryParams = new URLSearchParams(MyKeyValues);
-  const Params1 = queryParams.get("name");
-  const Params2 = queryParams.get("userId");
   const [username, setUsername] = useState("");
+  const [roll_number, setRoll_number] = useState("");
+  const [dept, setDept] = useState("");
+  const [batch, setBatch] = useState("");
+  const [languages, setLanguages] = useState([]);
+  const [fav, setFav] = useState([]);
+  const [replyfav, setReplyfav] = useState([]);
+  const [save, setSave] = useState();
+  const [replysave, setReplySave] = useState();
+  const queryParams = new URLSearchParams(MyKeyValues);
+  const Params2 = queryParams.get("userId");
+  
+  let userId = Params2;
   let Profile_click = location.state?.Profile_click;
-  let Acc_option_selected = location.state?.selected;
 
   const [focusArray, setFocusArray] = useState([
     true,
@@ -59,6 +52,7 @@ const Account = () => {
     false,
     false,
   ]);
+
   const contents = [
     "Profile",
     "Topics Started",
@@ -108,50 +102,60 @@ const Account = () => {
     }
   }, [Profile_click]);
 
-  let userId = Params2;
-
   useEffect(() => {
     api
       .get("/profile_infoId", { params: { userId } })
-      .then((res) => setEmail(res.data[0]?.email))
+      .then((res) => {
+        setEmail(res.data[0]?.email);
+        setUsername(res.data[0]?.username);
+        setRoll_number(res.data[0]?.roll_number);
+        setDept(res.data[0]?.dept);
+        setBatch(res.data[0]?.batch);
+      })
       .catch((err) => console.log(err));
   }, [userId]);
 
-  // 🟢 Get username by email
   useEffect(() => {
     if (!email) return;
-    api
-      .post("/profile_info", { email })
-      .then((res) => setUsername(res.data[0]?.username))
-      .catch((err) => console.log(err));
-  }, [email]);
 
-  // 🟢 Get full profile info
-  useEffect(() => {
-    if (!email) return;
     api
-      .post("/profile_info", { email })
-      .then((res) => setResult(res.data))
+      .post("/fetch_saved", { email })
+      .then((res) => setSave(res.data))
       .catch((err) => console.log(err));
-  }, [email]);
 
-  // 🟢 Get user posts
-  useEffect(() => {
-    if (!email) return;
+    api
+      .post("/fetch_Replysaved", { email })
+      .then((res) => setReplySave(res.data))
+      .catch((err) => console.log(err));
+
+    api
+      .post("/favourites", { email })
+      .then((res) => setFav(res.data))
+      .catch((err) => console.log(err));
+
+    api
+      .post("/ReplyFavourites", { email })
+      .then((res) => setReplyfav(res.data))
+      .catch((err) => console.log(err));
+
     api
       .post("/userPosts", { email })
       .then((res) => setQuestions(res.data))
       .catch((err) => console.log(err));
-  }, [email]);
 
-  // 🟢 Get user replies
-  useEffect(() => {
-    if (!email) return;
     api
       .post("/userReplies", { email })
       .then((res) => setReplies(res.data))
       .catch((err) => console.log(err));
   }, [email]);
+
+  // 🟢 Get Languages
+  useEffect(() => {
+    api
+      .get("/getLanguages")
+      .then((res) => setLanguages(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   let arr2 = [],
     arr4 = [];
@@ -172,32 +176,7 @@ const Account = () => {
     );
   };
 
-  let a, roll_number, dept, batch;
-
-  {
-    results.map((value, index) => {
-      <div key={index}></div>;
-
-      if (value.email == email) {
-        let day, month, year;
-        const dateObj = new Date(value.date);
-        day = dateObj.getDate(); // Day of the month (1-31)
-        month = dateObj.getMonth() + 1; // Month (0-11, so add 1)
-        year = dateObj.getFullYear(); // Full year (e.g., 2023)
-
-        const [Hours, Minutes] = value?.time?.split(":");
-
-        a = FindDate({
-          arr2: [Number(day), Number(month), Number(year)],
-          arr4: [Number(Hours), Number(Minutes)],
-        });
-
-        roll_number = value.roll_number;
-        dept = value.dept;
-        batch = value.batch;
-      }
-    });
-  }
+  let a;
 
   if (nowemail === email) {
     a = "Active Now";
@@ -213,8 +192,8 @@ const Account = () => {
             email={email}
             nowemail={nowemail}
             active={a}
-            questions={questions}
-            replies={replies}
+            noOfposts={questions.length}
+            noOfreplies={replies.length}
           />
         );
 
@@ -223,31 +202,48 @@ const Account = () => {
           <TopicsStarted
             email={email}
             nowemail={nowemail}
-            questions={questions}
+            posts={questions}
+            languages={languages}
             selectedComponent={selectedComponent}
           />
         );
 
       case "2":
-        return <RepliesCreated email={email} nowemail={nowemail} />;
+        return (
+          <RepliesCreated
+            email={email}
+            nowemail={nowemail}
+            languages={languages}
+            replies={replies}
+          />
+        );
 
       case "3":
-        return <Favourites email={email} nowemail={nowemail} active={a} />;
+        return (
+          <Favourites
+            email={email}
+            nowemail={nowemail}
+            active={a}
+            noOfFav={fav.length}
+            noOfReplyfav={replyfav.length}
+          />
+        );
 
       case "4":
-        return <Savedd email={email} nowemail={nowemail} active={a} />;
+        return (
+          <Savedd
+            email={email}
+            nowemail={nowemail}
+            active={a}
+            noOfSaved={save.length}
+            noOfReplysave={replysave.length}
+          />
+        );
 
       default:
         return null;
     }
   };
-
-  let lastFiveRecentReplies = questions?.slice(-5).reverse();
-  let recentReplies = lastFiveRecentReplies;
-
-  if (!email) {
-    return <h1>404</h1>;
-  }
 
   return (
     <div className="bodyy">
@@ -325,6 +321,12 @@ const Account = () => {
           email={email}
           nowemail={nowemail}
           selectedComponent={selectedComponent}
+          posts={questions}
+          replies={replies}
+          fav={fav}
+          replyfav={replyfav}
+          save={save}
+          replysave={replysave}
         />
       </div>
     </div>

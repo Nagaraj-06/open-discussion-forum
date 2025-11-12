@@ -277,7 +277,7 @@ const Fav_Controllers = {
     try {
       const id = req.body.post_id;
       db.query(
-        "select * from likes where post_id=? and status=?",
+        "SELECT COUNT(*) AS total_likes FROM likes WHERE post_id = ? AND status = ?",
         [id, "1"],
         (err, result) => {
           if (err) {

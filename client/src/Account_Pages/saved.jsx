@@ -5,28 +5,7 @@ import Img1 from "../assets/download (1).jpeg";
 import FindDate from "../componants/FindDate";
 import api from "../api/axiosConfig";
 
-const Savedd = ({ email, nowemail, active }) => {
-  const [save, setSave] = useState([]);
-  const [replysave, setReplySave] = useState([]);
-
-  // 🟢 Fetch saved questions
-  useEffect(() => {
-    if (!email) return; // wait until email is set
-    api
-      .post("/fetch_saved", { email })
-      .then((res) => setSave(res.data))
-      .catch((err) => console.log(err));
-  }, [email]);
-
-  // 🟢 Fetch saved replies
-  useEffect(() => {
-    if (!email) return; // wait until email is set
-    api
-      .post("/fetch_Replysaved", { email })
-      .then((res) => setReplySave(res.data))
-      .catch((err) => console.log(err));
-  }, [email]);
-
+const Savedd = ({ email, nowemail, active, noOfSaved, noOfReplysave }) => {
   return (
     <>
       <div className="accdetails">
@@ -34,13 +13,13 @@ const Savedd = ({ email, nowemail, active }) => {
           {" "}
           <h1>SAVED</h1>
           <p>
-            <b>Total Saved</b>: {save?.length + replysave?.length}
+            <b>Total Saved</b>: {noOfSaved + noOfReplysave}
           </p>
           <p>
-            <b>Saved on Questions</b>: {save?.length}{" "}
+            <b>Saved on Questions</b>: {noOfSaved}{" "}
           </p>
           <p>
-            <b>Saved on Replies</b>: {replysave?.length}{" "}
+            <b>Saved on Replies</b>: {noOfReplysave}{" "}
           </p>
         </div>
       </div>

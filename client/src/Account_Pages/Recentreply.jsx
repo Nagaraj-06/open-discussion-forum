@@ -1,80 +1,29 @@
 import React, { useEffect, useState } from "react";
-// import { Recentreply } from '../components/Recentreply';
 import Img1 from "../assets/download (1).jpeg";
-import { Profile } from "./Profile";
-import { TopicsStarted } from "./TopicsStarted";
-import { RepliesCreated } from "./RepliesCreated";
-import "./Recentreply.css";
-
-import { Footer } from "../componants/Footer";
-import { NavLink, useLocation } from "react-router-dom";
-import { Header1 } from "../componants/Header1";
-import axios from "axios";
-import { FirstHeader } from "../componants/Header";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
-import FindDate from "../componants/FindDate";
-import Favourites from "./Favourites";
+import { NavLink } from "react-router-dom";
 import Img11 from "../assets/NotYetPost.jpg";
 import api from "../api/axiosConfig";
+import FindDate from "../componants/FindDate";
 
-export const Recentreply = ({ email, nowemail, selectedComponent }) => {
-  let [questions, setQuestions] = useState([]);
-  let [allquestions, setAllQuestions] = useState([]);
-  const [replies, setReplies] = useState([]);
-  const [fav, setFav] = useState([]);
-  const [replyfav, setReplyfav] = useState([]);
-  let recentfav = fav?.slice(-5).reverse();
-  let RecentReplyfav = replyfav?.slice(-5).reverse();
-
-  const [save, setSave] = useState(null);
-  const [replysave, setReplySave] = useState(null);
+export const Recentreply = ({
+  email,
+  nowemail,
+  selectedComponent,
+  fav,
+  replyfav,
+  posts,
+  replies,
+  save,
+  replysave,
+}) => {
+  const [allquestions, setAllQuestions] = useState([]);
   const [usernames, setUsernames] = useState([]);
 
-  let lastFiveRecentsave = save?.slice(-5).reverse();
-  let recentsave = lastFiveRecentsave;
+  let recentfav = fav?.slice(-5).reverse();
+  let RecentReplyfav = replyfav?.slice(-5).reverse();
+  let recentsave = save?.slice(-5).reverse();
+  let RecentReplysave = replysave?.slice(-5).reverse();
 
-  let lastFiveRecentReplysave = replysave?.slice(-5).reverse();
-  let RecentReplysave = lastFiveRecentReplysave;
-
-  let level_id, language_id;
-
-  // 🟢 Email-dependent requests
-  useEffect(() => {
-    if (!email) return;
-
-    api
-      .post("/favourites", { email })
-      .then((res) => setFav(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/ReplyFavourites", { email })
-      .then((res) => setReplyfav(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/userPosts", { email })
-      .then((res) => setQuestions(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/userReplies", { email })
-      .then((res) => setReplies(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/fetch_saved", { email })
-      .then((res) => setSave(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/fetch_Replysaved", { email })
-      .then((res) => setReplySave(res.data))
-      .catch((err) => console.log(err));
-  }, [email]);
-
-  // 🟢 Requests independent of email
   useEffect(() => {
     api
       .get("/usernames")
@@ -87,54 +36,27 @@ export const Recentreply = ({ email, nowemail, selectedComponent }) => {
       .catch((err) => console.log(err));
   }, []);
 
-  let a = "",
-    arr2 = [],
-    arr4 = [];
-
-  let lastFiveRecentPosts = questions?.slice(-5).reverse();
-  let recentPosts = lastFiveRecentPosts;
-
-  let lastFiveRecentReplies = replies?.slice(-5).reverse();
-  let recentReplies = lastFiveRecentReplies;
-
-  if (nowemail === email) {
-    a = "Active Now";
-  } else {
-    a = FindDate({ arr2: arr2, arr4: arr4 });
-  }
-  let title;
+  let recentPosts = posts?.slice(-5).reverse();
+  let recentReplies = replies?.slice(-5).reverse();
+  let title, language_id, level_id;
 
   return (
     <>
-      {selectedComponent == "1" || selectedComponent == "0" ? (
+      {/* Recent Posts */}
+      {(selectedComponent == "1" || selectedComponent == "0") && (
         <div className="recent-reply">
-          {nowemail === email ? (
-            <h2>MY RECENT POSTS</h2>
-          ) : (
-            <h2>RECENT POSTS</h2>
-          )}
+          <h2>{nowemail === email ? "MY RECENT POSTS" : "RECENT POSTS"}</h2>
           <table className="rr">
             {recentPosts?.map((value, index) => {
-              <div key={index}></div>;
-              let day, month, year;
-              const dateObj = new Date(value.date);
-              day = dateObj.getDate(); // Day of the month (1-31)
-              month = dateObj.getMonth() + 1; // Month (0-11, so add 1)
-              year = dateObj.getFullYear(); // Full year (e.g., 2023)
-
-              const [Hours, Minutes] = value?.time?.split(":");
-
-              arr4 = [Number(Hours), Number(Minutes)];
-
-              a = FindDate({
-                arr2: [Number(day), Number(month), Number(year)],
-                arr4: [Number(Hours), Number(Minutes)],
+              const timeAgo = FindDate({
+                dateStr: value.date?.split("T")[0],
+                timeStr: value.time,
               });
 
               return (
-                <tr>
+                <tr key={index}>
                   <td className="imagetd">
-                    <img src={Img1}></img>
+                    <img src={Img1} alt="pfp" />
                   </td>
                   <td className="columntwo">
                     <NavLink
@@ -142,139 +64,101 @@ export const Recentreply = ({ email, nowemail, selectedComponent }) => {
                       state={{ selected: selectedComponent }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <b> {value.title} </b> <br />
-                      {a}
+                      <b>{value.title}</b> <br />
+                      {timeAgo}
                     </NavLink>
                   </td>
                 </tr>
               );
             })}
-            {recentPosts?.length == 0 ? (
+            {recentPosts?.length === 0 && (
               <tr className="nopostsyet">
-                <img src={Img11} />
-                No Interactions yet ! <br /> Feel free to make one
+                <img src={Img11} alt="no-post" />
+                No Interactions yet! <br /> Feel free to make one
               </tr>
-            ) : null}
+            )}
           </table>
         </div>
-      ) : null}
+      )}
 
-      {selectedComponent == "2" ? (
+      {/* Recent Replies */}
+      {selectedComponent == "2" && (
         <div className="recent-reply">
-          {nowemail === email ? (
-            <h2>MY RECENT REPLIES</h2>
-          ) : (
-            <h2>RECENT REPLIES</h2>
-          )}
+          <h2>{nowemail === email ? "MY RECENT REPLIES" : "RECENT REPLIES"}</h2>
           <table className="rr">
             {recentReplies?.map((value, index) => {
-              {
-                allquestions?.forEach((ques_details) => {
-                  if (ques_details.id == value.post_id) {
-                    title = ques_details.title;
-                  }
-                });
-              }
-              let day, month, year;
-              const dateObj = new Date(value.date);
-              day = dateObj.getDate(); // Day of the month (1-31)
-              month = dateObj.getMonth() + 1; // Month (0-11, so add 1)
-              year = dateObj.getFullYear(); // Full year (e.g., 2023)
+              allquestions?.forEach((q) => {
+                if (q.id === value.post_id) title = q.title;
+              });
 
-              const [Hours, Minutes] = value?.time?.split(":");
-
-              a = FindDate({
-                arr2: [Number(day), Number(month), Number(year)],
-                arr4: [Number(Hours), Number(Minutes)],
+              const timeAgo = FindDate({
+                dateStr: value.date?.split("T")[0],
+                timeStr: value.time,
               });
 
               return (
-                <tr>
+                <tr key={index}>
                   <td>
-                    <img src={Img1}></img>
+                    <img src={Img1} alt="pfp" />
                   </td>
-
                   <td>
                     <NavLink
-                      to={`/${value?.language_id}/${value?.level_id}/discussion?discussionId=${value.post_id}`}
+                      to={`/${value.language_id}/${value.level_id}/discussion?discussionId=${value.post_id}`}
                       state={{ selected: selectedComponent }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <b> {title} </b> <br />
-                      {a}
+                      <b>{title}</b> <br />
+                      {timeAgo}
                     </NavLink>
                   </td>
                 </tr>
               );
             })}
-
-            {recentReplies?.length == 0 ? (
+            {recentReplies?.length === 0 && (
               <tr className="nopostsyet">
-                <img src={Img11} />
-                No Interactions yet ! <br /> Feel free to make one
+                <img src={Img11} alt="no-reply" />
+                No Interactions yet! <br /> Feel free to make one
               </tr>
-            ) : null}
+            )}
           </table>
         </div>
-      ) : null}
+      )}
 
-      {selectedComponent == "3" ? (
+      {/* Likes */}
+      {selectedComponent == "3" && (
         <div className="recent-reply">
-          <h2>LIKES </h2>
+          <h2>LIKES</h2>
           <table className="rr">
             {recentfav?.map((value, index) => {
-              <div key={index}></div>;
-
-              let day, month, year;
-              const dateObj = new Date(value.date);
-              day = dateObj.getDate(); // Day of the month (1-31)
-              month = dateObj.getMonth() + 1; // Month (0-11, so add 1)
-              year = dateObj.getFullYear(); // Full year (e.g., 2023)
-
-              const [Hours, Minutes] = value?.time?.split(":");
-
-              a = FindDate({
-                arr2: [Number(day), Number(month), Number(year)],
-                arr4: [Number(Hours), Number(Minutes)],
+              const timeAgo = FindDate({
+                dateStr: value.date?.split("T")[0],
+                timeStr: value.time,
               });
 
               let name, userId;
-              {
-                usernames.forEach((u_name) => {
-                  if (u_name.email == value.email) {
-                    name = u_name.username;
-                    userId = u_name.id;
-                  }
-                });
-              }
+              usernames.forEach((u) => {
+                if (u.email === value.email) {
+                  name = u.username;
+                  userId = u.id;
+                }
+              });
 
               return (
-                // <tbody>
-                <tr>
+                <tr key={index}>
                   <td>
-                    {" "}
                     <NavLink
                       to={`/profile?userId=${userId}`}
-                      state={{
-                        Profile_click: "yes",
-                        selected: selectedComponent,
-                      }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <img src={Img1}></img>
+                      <img src={Img1} alt="pfp" />
                     </NavLink>
                   </td>
-
                   <td>
                     <NavLink
                       to={`/profile?userId=${userId}`}
-                      state={{
-                        Profile_click: "yes",
-                        selected: selectedComponent,
-                      }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <b>{name}</b>{" "}
+                      <b>{name}</b>
                     </NavLink>{" "}
                     on
                     <br />
@@ -283,9 +167,8 @@ export const Recentreply = ({ email, nowemail, selectedComponent }) => {
                       state={{ selected: selectedComponent }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <b> {value.title}</b>
-                      <br />
-                      {a}
+                      <b>{value.title}</b> <br />
+                      {timeAgo}
                     </NavLink>
                   </td>
                 </tr>
@@ -293,60 +176,40 @@ export const Recentreply = ({ email, nowemail, selectedComponent }) => {
             })}
 
             {RecentReplyfav?.map((value, index) => {
-              {
-                allquestions?.forEach((ques_details) => {
-                  if (ques_details.id == value.post_id) {
-                    title = ques_details.title;
-                    language_id = ques_details.language_id;
-                    level_id = ques_details.level_id;
-                  }
-                });
-              }
+              allquestions?.forEach((q) => {
+                if (q.id === value.post_id) {
+                  title = q.title;
+                  language_id = q.language_id;
+                  level_id = q.level_id;
+                }
+              });
 
-              let day, month, year;
-              const dateObj = new Date(value.date);
-              day = dateObj.getDate(); // Day of the month (1-31)
-              month = dateObj.getMonth() + 1; // Month (0-11, so add 1)
-              year = dateObj.getFullYear(); // Full year (e.g., 2023)
-
-              const [Hours, Minutes] = value?.time?.split(":");
-
-              a = FindDate({
-                arr2: [Number(day), Number(month), Number(year)],
-                arr4: [Number(Hours), Number(Minutes)],
+              const timeAgo = FindDate({
+                dateStr: value.date?.split("T")[0],
+                timeStr: value.time,
               });
 
               let name, userId;
-              {
-                usernames.forEach((u_name) => {
-                  if (u_name.email == value.from_email) {
-                    name = u_name.username;
-                    userId = u_name.id;
-                  }
-                });
-              }
+              usernames.forEach((u) => {
+                if (u.email === value.from_email) {
+                  name = u.username;
+                  userId = u.id;
+                }
+              });
+
               return (
-                <tr>
+                <tr key={index}>
                   <td>
-                    {" "}
                     <NavLink
                       to={`/profile?userId=${userId}`}
-                      state={{
-                        Profile_click: "yes",
-                        selected: selectedComponent,
-                      }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <img src={Img1}></img>
+                      <img src={Img1} alt="pfp" />
                     </NavLink>
                   </td>
                   <td>
                     <NavLink
                       to={`/profile?userId=${userId}`}
-                      state={{
-                        Profile_click: "yes",
-                        selected: selectedComponent,
-                      }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
                       <b>{name}</b>
@@ -358,142 +221,110 @@ export const Recentreply = ({ email, nowemail, selectedComponent }) => {
                       state={{ selected: selectedComponent }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <b>{title}</b>
-                      <br />
-                      {a}
+                      <b>{title}</b> <br />
+                      {timeAgo}
                     </NavLink>
                   </td>
                 </tr>
               );
             })}
 
-            {recentfav?.length == 0 && RecentReplyfav?.length == 0 ? (
+            {recentfav?.length === 0 && RecentReplyfav?.length === 0 && (
               <tr className="nopostsyet">
-                <img src={Img11} />
-                No Interactions yet ! <br /> Feel free to make one
+                <img src={Img11} alt="no-like" />
+                No Interactions yet! <br /> Feel free to make one
               </tr>
-            ) : null}
+            )}
           </table>
         </div>
-      ) : null}
+      )}
 
-      {selectedComponent == "4" ? (
+      {/* Saved */}
+      {selectedComponent == "4" && (
         <div className="recent-reply">
-          <h2>SAVED </h2>
+          <h2>SAVED</h2>
           <table className="rr">
             {recentsave?.map((value, index) => {
-              <div key={index}></div>;
-              let day, month, year;
-              const dateObj = new Date(value.date);
-              day = dateObj.getDate(); // Day of the month (1-31)
-              month = dateObj.getMonth() + 1; // Month (0-11, so add 1)
-              year = dateObj.getFullYear(); // Full year (e.g., 2023)
-
-              const [Hours, Minutes] = value?.time?.split(":");
-
-              a = FindDate({
-                arr2: [Number(day), Number(month), Number(year)],
-                arr4: [Number(Hours), Number(Minutes)],
+              const timeAgo = FindDate({
+                dateStr: value.date?.split("T")[0],
+                timeStr: value.time,
               });
 
               let name, userId;
-              {
-                usernames.forEach((u_name) => {
-                  if (u_name.email == value.email) {
-                    name = u_name.username;
-                    userId = u_name.id;
-                  }
-                });
-              }
+              usernames.forEach((u) => {
+                if (u.email === value.email) {
+                  name = u.username;
+                  userId = u.id;
+                }
+              });
 
               return (
-                <tbody>
-                  <tr>
-                    <td>
-                      {" "}
-                      <NavLink
-                        to={`/profile?userId=${userId}`}
-                        state={{ Profile_click: "yes" }}
-                        style={{ textDecoration: "none", color: "#11297f" }}
-                      >
-                        <img src={Img1}></img>
-                      </NavLink>
-                    </td>
-                    <td>
-                      <NavLink
-                        to={`/profile?userId=${userId}`}
-                        state={{ Profile_click: "yes" }}
-                        style={{ textDecoration: "none", color: "#11297f" }}
-                      >
-                        <b>{name}</b>{" "}
-                      </NavLink>{" "}
-                      on
-                      <br />
-                      <NavLink
-                        to={`/${value.language_id}/${value.level_id}/discussion?discussionId=${value.id}`}
-                        state={{ selected: selectedComponent }}
-                        style={{ textDecoration: "none", color: "#11297f" }}
-                      >
-                        <b> {value.title} </b>
-                        <br />
-                        {a}
-                      </NavLink>
-                    </td>
-                  </tr>
-                </tbody>
+                <tr key={index}>
+                  <td>
+                    <NavLink
+                      to={`/profile?userId=${userId}`}
+                      style={{ textDecoration: "none", color: "#11297f" }}
+                    >
+                      <img src={Img1} alt="pfp" />
+                    </NavLink>
+                  </td>
+                  <td>
+                    <NavLink
+                      to={`/profile?userId=${userId}`}
+                      style={{ textDecoration: "none", color: "#11297f" }}
+                    >
+                      <b>{name}</b>
+                    </NavLink>{" "}
+                    on
+                    <br />
+                    <NavLink
+                      to={`/${value.language_id}/${value.level_id}/discussion?discussionId=${value.id}`}
+                      state={{ selected: selectedComponent }}
+                      style={{ textDecoration: "none", color: "#11297f" }}
+                    >
+                      <b>{value.title}</b> <br />
+                      {timeAgo}
+                    </NavLink>
+                  </td>
+                </tr>
               );
             })}
 
             {RecentReplysave?.map((value, index) => {
-              {
-                allquestions.forEach((ques_details) => {
-                  if (ques_details.id == value.post_id) {
-                    title = ques_details.title;
-                    language_id = ques_details.language_id;
-                    level_id = ques_details.level_id;
-                  }
-                });
-              }
-              let day, month, year;
-              const dateObj = new Date(value.date);
-              day = dateObj.getDate(); // Day of the month (1-31)
-              month = dateObj.getMonth() + 1; // Month (0-11, so add 1)
-              year = dateObj.getFullYear(); // Full year (e.g., 2023)
+              allquestions?.forEach((q) => {
+                if (q.id === value.post_id) {
+                  title = q.title;
+                  language_id = q.language_id;
+                  level_id = q.level_id;
+                }
+              });
 
-              const [Hours, Minutes] = value?.time?.split(":");
+              const timeAgo = FindDate({
+                dateStr: value.date?.split("T")[0],
+                timeStr: value.time,
+              });
+
               let name, userId;
-
-              {
-                usernames.forEach((u_name) => {
-                  if (u_name.email == value.from_email) {
-                    name = u_name.username;
-                    userId = u_name.id;
-                  }
-                });
-              }
-
-              a = FindDate({
-                arr2: [Number(day), Number(month), Number(year)],
-                arr4: [Number(Hours), Number(Minutes)],
+              usernames.forEach((u) => {
+                if (u.email === value.from_email) {
+                  name = u.username;
+                  userId = u.id;
+                }
               });
 
               return (
-                <tr>
+                <tr key={index}>
                   <td>
-                    {" "}
                     <NavLink
                       to={`/profile?userId=${userId}`}
-                      state={{ Profile_click: "yes" }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <img src={Img1}></img>
+                      <img src={Img1} alt="pfp" />
                     </NavLink>
                   </td>
                   <td>
-                    {" "}
                     <NavLink
                       to={`/profile?userId=${userId}`}
-                      state={{ Profile_click: "yes" }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
                       <b>{name}</b>
@@ -505,24 +336,23 @@ export const Recentreply = ({ email, nowemail, selectedComponent }) => {
                       state={{ selected: selectedComponent }}
                       style={{ textDecoration: "none", color: "#11297f" }}
                     >
-                      <b> {title} </b>
-                      <br />
-                      {a}
+                      <b>{title}</b> <br />
+                      {timeAgo}
                     </NavLink>
                   </td>
                 </tr>
               );
             })}
 
-            {recentsave?.length == 0 && RecentReplysave?.length == 0 ? (
+            {recentsave?.length === 0 && RecentReplysave?.length === 0 && (
               <tr className="nopostsyet">
-                <img src={Img11} />
-                No Interactions yet ! <br /> Feel free to make one
+                <img src={Img11} alt="no-save" />
+                No Interactions yet! <br /> Feel free to make one
               </tr>
-            ) : null}
+            )}
           </table>
         </div>
-      ) : null}
+      )}
     </>
   );
 };

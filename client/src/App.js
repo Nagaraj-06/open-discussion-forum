@@ -6,7 +6,7 @@ import Login from "./componants/login";
 import Home from "./Pages/Home";
 import Discussionform from "./componants/DiscussionForm";
 import Level from "./Pages/Level";
-import Language from "./Pages/Topics";
+import Topics from "./Pages/Topics";
 import ScrollToTop from "./Pages/ScrollTop";
 import Register from "./componants/register";
 import Account from "./Account_Pages/Account";
@@ -70,7 +70,7 @@ function App() {
               <Route
                 key={i}
                 path={`/${item.language_id}/${item.id}`}
-                element={<Language />}
+                element={<Topics />}
               />
             ))}
             {posts.map((item, i) => (
