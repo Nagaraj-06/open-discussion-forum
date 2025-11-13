@@ -3,7 +3,7 @@ import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { toast, Bounce } from "react-toastify";
 import { Button } from "@blueprintjs/core";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../api/axiosConfig";
 
 const Register = () => {
