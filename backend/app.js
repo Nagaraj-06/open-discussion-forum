@@ -9,13 +9,16 @@ const db = require("./src/config/db");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
 
-const session = require("express-session"); // Import express-session
+const session = require("express-session");
 const passport = require("passport");
 require("./passport-setup");
 
 dotenv.config({
   path: path.resolve(__dirname, "./.env"),
 });
+
+// IMPORTANT: Must be before cookie + session
+app.set("trust proxy", 1);  // 🔥 REQUIRED FOR SECURE COOKIES IN CLOUD HOSTING
 
 app.use(
   cors({
@@ -36,12 +39,17 @@ app.use(
     secret: process.env.secret_key,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false },
+    cookie: {
+      secure: true,     // 🔥 MUST BE TRUE FOR DEPLOYED HTTPS
+      httpOnly: true,
+      sameSite: "none", // 🔥 REQUIRED FOR FRONTEND<>BACKEND DIFFERENT DOMAIN
+    },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
