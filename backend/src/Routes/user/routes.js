@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { userController } = require("../../Controllers/Users/user");
 
+router.post("/profile_fullData", userController.profileFullData);
+
 router.get("/profile_full", userController.getFullProfileInfo);
 
 // Get user length

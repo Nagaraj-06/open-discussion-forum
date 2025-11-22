@@ -108,7 +108,31 @@ router.get(
             // 👇 Redirect to the frontend success handler
             return res.redirect(`${process.env.frontend_url}/auth/success`);
           } else {
-            return res.redirect(`${process.env.frontend_url}/failed`);
+            // user not found → create new record
+            db.query(
+              "INSERT INTO users (username, email, date, time) VALUES (?, ?, ?, ?)",
+              [userName, userEmail, fecha, fecha1],
+              (err3) => {
+                if (err3) {
+                  console.log(err3);
+                  return res.status(500).send("Server error");
+                }
+
+                const token = jwt.sign(
+                  { username: userName, email: userEmail },
+                  process.env.secret_key,
+                  { expiresIn: "1d" }
+                );
+
+                res.cookie("token", token, {
+                  httpOnly: true,
+                  secure: true,
+                  sameSite: "None",
+                });
+
+                return res.redirect(`${process.env.frontend_url}/auth/success`);
+              }
+            );
           }
         }
       }

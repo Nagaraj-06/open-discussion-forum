@@ -1,6 +1,94 @@
 const db = require("../../config/db");
 
 const userController = {
+  profileFullData: async (req, res) => {
+    try {
+      const { userId } = req.body;
+
+      // 1️⃣ Get user info
+      const [user] = await db
+        .promise()
+        .query("SELECT * FROM users WHERE id = ?", [userId]);
+
+      if (!user.length) {
+        return res.status(404).send({ message: "User not found" });
+      }
+
+      const email = user[0].email;
+
+      // 2️⃣ Fetch everything in parallel using Promise.all()
+      const [
+        saved,
+        replySaved,
+        favourites,
+        replyFavourites,
+        userPosts,
+        userReplies,
+        languages,
+      ] = await Promise.all([
+        // saved posts
+        db.promise().query(
+          `SELECT q.* FROM saved s 
+         JOIN questions q ON q.id = s.post_id
+         WHERE s.email = ? AND s.status = '1'`,
+          [email]
+        ),
+
+        // reply saved
+        db.promise().query(
+          `SELECT rd.* FROM reply_saved rs
+         LEFT JOIN reply_details rd ON rs.MainReplyId = rd.id
+         LEFT JOIN sub_replies sr ON rs.SubReplyId = sr.id
+         WHERE rs.email = ? AND rs.status = '1'`,
+          [email]
+        ),
+
+        // favourites (likes)
+        db.promise().query(
+          `SELECT q.* FROM likes l
+         JOIN questions q ON q.id = l.post_id
+         WHERE l.email = ? AND l.status = '1'`,
+          [email]
+        ),
+
+        // reply favourites
+        db.promise().query(
+          `SELECT rd.* FROM reply_likes rl
+         LEFT JOIN reply_details rd ON rl.MainReplyId = rd.id
+         LEFT JOIN sub_replies sr ON rl.SubReplyId = sr.id
+         WHERE rl.email = ? AND rl.status = '1'`,
+          [email]
+        ),
+
+        // user posts
+        db.promise().query("SELECT * FROM questions WHERE email = ?", [email]),
+
+        // user replies
+        db
+          .promise()
+          .query("SELECT * FROM reply_details WHERE from_email = ?", [email]),
+
+        // languages
+        db.promise().query("SELECT * FROM languages"),
+      ]);
+
+      // 3️⃣ Send everything at once
+      res.send({
+        user: user[0],
+        saved: saved[0],
+        replySaved: replySaved[0],
+        favourites: favourites[0],
+        replyFavourites: replyFavourites[0],
+        userPosts: userPosts[0],
+        userReplies: userReplies[0],
+        languages: languages[0],
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ error: error.message });
+    }
+  },
+
   getFullProfileInfo: async (req, res) => {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ error: "Missing userId" });
@@ -133,12 +221,16 @@ const userController = {
   getProfile_info: async (req, res) => {
     try {
       const { email } = req.body;
-      db.query("select username,id from users where email=?", [email], (err, result) => {
-        if (err) console.log(err);
-        else {
-          res.send(result);
+      db.query(
+        "select username,id from users where email=?",
+        [email],
+        (err, result) => {
+          if (err) console.log(err);
+          else {
+            res.send(result);
+          }
         }
-      });
+      );
     } catch (error) {
       res.status(500).send({
         message: "Error occurs while fetch language datas..",

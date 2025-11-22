@@ -21,7 +21,6 @@ import { UserContext } from "../Pages/UserContext";
 
 const Account = () => {
   const [selectedComponent, setSelectedComponent] = useState("0");
-  let [results, setResult] = useState([]);
   let [questions, setQuestions] = useState([]);
   const [replies, setReplies] = useState([]);
   const location = useLocation();
@@ -31,9 +30,11 @@ const Account = () => {
   const [email, setEmail] = useState();
   const MyKeyValues = window.location.search;
   const [username, setUsername] = useState("");
-  const [roll_number, setRoll_number] = useState("");
-  const [dept, setDept] = useState("");
-  const [batch, setBatch] = useState("");
+  const [last_loggedin_date, setLast_loggedin_date] = useState("");
+  const [last_loggedin_time, setLast_loggedin_time] = useState("");
+  const [roll_number, setRoll_number] = useState("#");
+  const [dept, setDept] = useState("#");
+  const [batch, setBatch] = useState("#");
   const [languages, setLanguages] = useState([]);
   const [fav, setFav] = useState([]);
   const [replyfav, setReplyfav] = useState([]);
@@ -41,7 +42,7 @@ const Account = () => {
   const [replysave, setReplySave] = useState();
   const queryParams = new URLSearchParams(MyKeyValues);
   const Params2 = queryParams.get("userId");
-  
+
   let userId = Params2;
   let Profile_click = location.state?.Profile_click;
 
@@ -103,62 +104,27 @@ const Account = () => {
   }, [Profile_click]);
 
   useEffect(() => {
+    if (!userId) return;
+
     api
-      .get("/profile_infoId", { params: { userId } })
+      .post("/profile_fullData", { userId })
       .then((res) => {
-        setEmail(res.data[0]?.email);
-        setUsername(res.data[0]?.username);
-        setRoll_number(res.data[0]?.roll_number);
-        setDept(res.data[0]?.dept);
-        setBatch(res.data[0]?.batch);
+        const data = res.data;
+
+        setEmail(data.user.email);
+        setUsername(data.user.username);
+        setLast_loggedin_date(data.user.date);
+        setLast_loggedin_time(data.user.time);
+        setSave(data.saved);
+        setReplySave(data.replySaved);
+        setFav(data.favourites);
+        setReplyfav(data.replyFavourites);
+        setQuestions(data.userPosts);
+        setReplies(data.userReplies);
+        setLanguages(data.languages);
       })
       .catch((err) => console.log(err));
   }, [userId]);
-
-  useEffect(() => {
-    if (!email) return;
-
-    api
-      .post("/fetch_saved", { email })
-      .then((res) => setSave(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/fetch_Replysaved", { email })
-      .then((res) => setReplySave(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/favourites", { email })
-      .then((res) => setFav(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/ReplyFavourites", { email })
-      .then((res) => setReplyfav(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/userPosts", { email })
-      .then((res) => setQuestions(res.data))
-      .catch((err) => console.log(err));
-
-    api
-      .post("/userReplies", { email })
-      .then((res) => setReplies(res.data))
-      .catch((err) => console.log(err));
-  }, [email]);
-
-  // 🟢 Get Languages
-  useEffect(() => {
-    api
-      .get("/getLanguages")
-      .then((res) => setLanguages(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  let arr2 = [],
-    arr4 = [];
 
   const handleClick = (component) => {
     setSelectedComponent(component);
@@ -177,11 +143,14 @@ const Account = () => {
   };
 
   let a;
-
+  
   if (nowemail === email) {
     a = "Active Now";
   } else {
-    a = FindDate({ arr2: arr2, arr4: arr4 });
+    a = FindDate({
+      dateStr: last_loggedin_date,
+      timeStr: last_loggedin_time,
+    });
   }
 
   const renderComponent = () => {

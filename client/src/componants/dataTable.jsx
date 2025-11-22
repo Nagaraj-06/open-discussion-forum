@@ -3,7 +3,7 @@ import "./dataTable.css";
 import Img1 from "../assets/download (1).jpeg";
 import { Link, NavLink } from "react-router-dom";
 import api from "../api/axiosConfig";
-import FindDate from "./FindDate"; // ✅ Added import
+import FindDate from "./FindDate";
 
 export const DataTable = ({ searchh }) => {
   const [tableData, setTableData] = useState([]);

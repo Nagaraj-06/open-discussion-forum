@@ -61,7 +61,7 @@ function App() {
           <>
             <Route path="/Home" element={<Home />} />
             <Route path="/profile" element={<Account />} />
-            <Route path="/Start_Discuss" element={<Discussionform />} />
+            <Route path="/start_discuss" element={<Discussionform />} />
 
             {languages.map((item, i) => (
               <Route key={i} path={`/${item.id}`} element={<Level />} />

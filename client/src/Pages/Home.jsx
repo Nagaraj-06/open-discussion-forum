@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Footer } from "../componants/Footer";
 import { DataTable } from "../componants/dataTable";
 import Img1 from "../assets/download (1).jpeg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -7,12 +6,13 @@ import axios from "axios";
 import { FirstHeader } from "../componants/Header";
 import FindDate from "../componants/FindDate";
 import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
 import "../Account_Pages/Recentreply.css";
 import Img11 from "../assets/NotYetPost.jpg";
 import api from "../api/axiosConfig";
 import { UserContext } from "./UserContext";
 import { useContext } from "react";
+import { TopicsStarted } from "../Account_Pages/TopicsStarted";
+import { Recentreply } from "../Account_Pages/Recentreply";
 
 const Home = () => {
   const location = useLocation();
@@ -63,7 +63,6 @@ const Home = () => {
         <DataTable searchh={search} />
         <div className="recent-reply">
           <h2>RECENT POSTS</h2>
-
           <table className="rr">
             {recentPosts.map((value, index) => {
               let timeAgo = FindDate({

@@ -68,7 +68,7 @@ export const Header1 = ({ email, selectedComponent }) => {
             </li>
 
             <li>
-              <NavLink to="/Start_Discuss">
+              <NavLink to="/start_discuss">
                 <span className="navtext">START DISCUSSION</span>
                 <span className="navicon">
                   <MdForum />

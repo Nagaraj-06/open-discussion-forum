@@ -274,7 +274,7 @@ function Questions() {
 
   // 🟢 Edit post
   function edit() {
-    navigate(`/Start_Discuss?EditPostId=${post_id}`);
+    navigate(`/start_discuss?EditPostId=${post_id}`);
   }
 
   // 🟢 Edit main reply
